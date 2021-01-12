@@ -1,5 +1,6 @@
 package com.example.clinic.Chat;
 
+import com.example.clinic.Employee.Doctor;
 import com.example.clinic.Patient.Patient;
 
 import javax.persistence.*;

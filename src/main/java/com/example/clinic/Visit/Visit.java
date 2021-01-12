@@ -1,5 +1,6 @@
 package com.example.clinic.Visit;
 
+import com.example.clinic.Employee.Doctor;
 import com.example.clinic.Patient.Patient;
 import org.hibernate.mapping.Join;
 

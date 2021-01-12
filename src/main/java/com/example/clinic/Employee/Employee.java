@@ -1,8 +1,11 @@
 package com.example.clinic.Employee;
 
+import com.example.clinic.Patient.IdDiseaseClass;
+import com.example.clinic.Salary.Salary;
 import com.example.clinic.User.User;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -18,6 +21,18 @@ public class Employee extends User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<Doctor> doctors;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<Salary> salaries;
+
+    @OneToMany(mappedBy = "patient")
+    private Set<Timetable> timetables;
+
+    @OneToMany(mappedBy = "patient")
+    private Set<AdmEmployee> admEmployees;
 
     public Employee() {
     }
