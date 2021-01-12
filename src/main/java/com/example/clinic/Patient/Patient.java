@@ -20,7 +20,7 @@ public class Patient extends User {
     private String sex;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
 
     @OneToMany(mappedBy="patient")

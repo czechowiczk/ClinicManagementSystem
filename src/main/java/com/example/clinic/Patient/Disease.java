@@ -6,27 +6,27 @@ import javax.persistence.*;
 @Table(name = "disease_history")
 public class Disease {
     @Id
-    private String name;
-    private String date;
-    private String description;
-    @Column(name="patient_id", nullable = false)
+    @Column(name = "id_disease")
+    private Integer diseaseId;
+    @Column(name="id_patient", nullable = false)
     private Integer patientId;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "date")
+    private String date;
+
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", insertable=false, updatable=false)
+    @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;
 
 
     public Disease() {
     }
 
-    public Disease(String name, String date, String description, Integer patientId, Patient patient) {
-        this.name = name;
-        this.date = date;
-        this.description = description;
-        this.patientId = patientId;
-        this.patient = patient;
-    }
+
 
     public String getName() {
         return name;

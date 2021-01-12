@@ -5,15 +5,17 @@ import com.example.clinic.User.User;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "employees")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Employee extends User {
     @Id
+    @Column(name = "id_user")
     private Integer id;
+    @Column(name = "id_employee")
     private Integer employeeId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
 
     public Employee() {

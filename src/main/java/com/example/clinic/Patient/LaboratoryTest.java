@@ -3,21 +3,35 @@ package com.example.clinic.Patient;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "laboratory_tests")
 public class LaboratoryTest {
 
     @Id
-    @Column(name="patient_id", nullable = false)
+    @Column(name="id_patient", nullable = false)
     private Integer patientId;
+    @Column(name = "id_test")
+    private Integer testId;
+    @Column(name = "type")
     private String type;
+    @Column(name = "date")
     private String date;
+    @Column(name = "description")
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", insertable=false, updatable=false)
+    @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;
 
     public LaboratoryTest() {
+    }
+
+    public LaboratoryTest(Integer patientId, Integer testId, String type, String date, String description, Patient patient) {
+        this.patientId = patientId;
+        this.testId = testId;
+        this.type = type;
+        this.date = date;
+        this.description = description;
+        this.patient = patient;
     }
 
     public Integer getPatientId() {
