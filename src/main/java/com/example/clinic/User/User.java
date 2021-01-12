@@ -3,12 +3,11 @@ package com.example.clinic.User;
 import com.example.clinic.Employee.Employee;
 import com.example.clinic.Patient.Patient;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @javax.persistence.Id
@@ -18,15 +17,18 @@ public class User {
             sequenceName = "user_sequence",
             allocationSize = 1
     )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Integer id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "surname")
     private String surname;
+    @Column(name = "pesel")
     private Long PESEL;
+    @Column(name = "age")
     private Integer age;
+    @Column(name = "password")
     private String password;
 
 
@@ -128,3 +130,5 @@ public class User {
 
 
 }
+
+

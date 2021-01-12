@@ -3,21 +3,31 @@ package com.example.clinic.Patient;
 import com.example.clinic.User.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
-@Table
+@Table(name = "patients")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Patient extends User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Integer id;
+    @Column(name = "id_patient", nullable = false)
     private Integer patientId;
     private String sex;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(mappedBy="patient")
+    private Set<Disease> diseases;
+
+    @OneToMany(mappedBy="patient")
+    private Set<LaboratoryTest> tests;
 
 
     public Patient() {

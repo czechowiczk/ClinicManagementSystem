@@ -3,37 +3,37 @@ package com.example.clinic.Patient;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "disease_history")
-public class Disease {
+@Table
+public class LaboratoryTest {
+
     @Id
-    private String name;
-    private String date;
-    private String description;
     @Column(name="patient_id", nullable = false)
     private Integer patientId;
+    private String type;
+    private String date;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", insertable=false, updatable=false)
     private Patient patient;
 
-
-    public Disease() {
+    public LaboratoryTest() {
     }
 
-    public Disease(String name, String date, String description, Integer patientId, Patient patient) {
-        this.name = name;
-        this.date = date;
-        this.description = description;
+    public Integer getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Integer patientId) {
         this.patientId = patientId;
-        this.patient = patient;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDate() {
@@ -51,5 +51,4 @@ public class Disease {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
