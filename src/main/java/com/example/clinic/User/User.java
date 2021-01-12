@@ -1,5 +1,6 @@
 package com.example.clinic.User;
 
+import com.example.clinic.Employee.Employee;
 import com.example.clinic.Patient.Patient;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -31,6 +32,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Patient patient;
+
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
 
     public User() {
     }
