@@ -2,6 +2,7 @@ package com.example.clinic.Patient;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @IdClass(IdLabTestClass.class)
 @Entity
@@ -17,7 +18,7 @@ public class LaboratoryTest {
     @Column(name = "type")
     private String type;
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
     @Column(name = "description")
     private String description;
 
@@ -29,7 +30,7 @@ public class LaboratoryTest {
     public LaboratoryTest() {
     }
 
-    public LaboratoryTest(Integer patientId, Integer testId, String type, String date, String description, Patient patient) {
+    public LaboratoryTest(Integer patientId, Integer testId, String type, LocalDate date, String description, Patient patient) {
         this.patientId = patientId;
         this.testId = testId;
         this.type = type;
@@ -54,11 +55,11 @@ public class LaboratoryTest {
         this.type = type;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

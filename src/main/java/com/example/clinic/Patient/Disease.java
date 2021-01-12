@@ -1,6 +1,7 @@
 package com.example.clinic.Patient;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @IdClass(IdDiseaseClass.class)
 @Entity
@@ -16,7 +17,7 @@ public class Disease {
     @Column(name = "description")
     private String description;
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
 
     @Id
     @ManyToOne
@@ -27,7 +28,14 @@ public class Disease {
     public Disease() {
     }
 
-
+    public Disease(Integer diseaseId, Integer patientId, String name, String description, LocalDate date, Patient patient) {
+        this.diseaseId = diseaseId;
+        this.patientId = patientId;
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.patient = patient;
+    }
 
     public String getName() {
         return name;
@@ -37,11 +45,11 @@ public class Disease {
         this.name = name;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
