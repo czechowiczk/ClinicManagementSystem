@@ -1,15 +1,14 @@
 package com.example.clinic.User;
 
+import com.example.clinic.Patient.Patient;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Entity
 @Table
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @javax.persistence.Id
     @Id
@@ -19,8 +18,8 @@ public class User {
             allocationSize = 1
     )
     @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "user_sequence"
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
     )
     private Integer id;
     private String name;
@@ -30,15 +29,17 @@ public class User {
     private String password;
 
 
-    public User() {
+    @OneToOne(mappedBy = "user")
+    private Patient patient;
 
+    public User() {
     }
 
-    public User(int id,
+    public User(Integer id,
                 String name,
                 String surname,
                 Long PESEL,
-                int age,
+                Integer age,
                 String password) {
         this.id = id;
         this.name = name;
@@ -93,7 +94,7 @@ public class User {
         this.PESEL = PESEL;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
