@@ -1,14 +1,17 @@
 package com.example.clinic.Patient;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
+@IdClass(IdLabTestClass.class)
 @Entity
 @Table(name = "laboratory_tests")
 public class LaboratoryTest {
 
-    @Id
+
     @Column(name="id_patient", nullable = false)
     private Integer patientId;
+    @Id
     @Column(name = "id_test")
     private Integer testId;
     @Column(name = "type")
@@ -18,6 +21,7 @@ public class LaboratoryTest {
     @Column(name = "description")
     private String description;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;

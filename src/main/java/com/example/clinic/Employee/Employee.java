@@ -14,6 +14,7 @@ public class Employee extends User {
     @Column(name = "id_employee")
     private Integer employeeId;
 
+    @Id
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;

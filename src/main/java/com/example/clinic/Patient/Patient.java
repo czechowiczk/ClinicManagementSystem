@@ -19,6 +19,7 @@ public class Patient extends User {
     private Integer patientId;
     private String sex;
 
+    @Id
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
