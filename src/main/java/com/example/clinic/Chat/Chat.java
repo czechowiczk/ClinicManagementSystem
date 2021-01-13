@@ -15,6 +15,7 @@ public class Chat {
     @Column(name = "id_chat")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer chatId;
+
 //    @Column(name = "id_doctor")
 //    private Integer doctorId;
 //    @Column(name = "id_patient")
