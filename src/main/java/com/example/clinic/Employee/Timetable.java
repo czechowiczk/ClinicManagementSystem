@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 @IdClass(IdTimetableClass.class)
 @Entity
-@Table
+@Table(name = "timetable")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Timetable {
     @Id

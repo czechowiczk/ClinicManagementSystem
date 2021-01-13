@@ -3,6 +3,7 @@ package com.example.clinic.Employee;
 import com.example.clinic.Chat.Chat;
 import com.example.clinic.Patient.Disease;
 import com.example.clinic.Patient.IdDiseaseClass;
+import com.example.clinic.Patient.Patient;
 import com.example.clinic.Visit.Visit;
 
 import javax.persistence.*;
@@ -10,28 +11,17 @@ import java.util.Set;
 
 @IdClass(IdDoctorClass.class)
 @Entity
-@Table
+@Table(name = "doctors")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Doctor extends Employee {
-    @Id
-    @Column(name="id_doctor")
-    private Integer doctorId;
-    @Column(name="id_employee", nullable = false)
-    private Integer employeeId;
     @Column(name="specialization")
     private String specialization;
     @Column(name="id_manager")
     private Integer managerId;
 
-    @Id
     @OneToOne
-    @JoinColumn(name = "id_employee", insertable=false, updatable=false)
+    @JoinColumn(name = "id_doctor")
     private Employee employee;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "id_manager", insertable=false, updatable=false)
-    private Manager manager;
 
     @OneToMany(mappedBy = "doctor")
     private Set<Visit> visits;
@@ -39,29 +29,19 @@ public class Doctor extends Employee {
     @OneToMany(mappedBy = "doctor")
     private Set<Chat> chats;
 
+    @ManyToOne
+    @JoinColumn(name = "id_manager", referencedColumnName = "id_manager", insertable=false, updatable=false)
+    private Manager manager;
+
     public Doctor() {
     }
 
-    public Doctor(String name, String surname, Long PESEL, int age, String password, Integer id) {
+    public Doctor(String name, String surname, Long PESEL, int age, String password, Integer id, String specialization, Integer managerId, Employee employee, Set<Visit> visits) {
         super(name, surname, PESEL, age, password, id);
-    }
-
-    public Integer getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Integer doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    @Override
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    @Override
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+        this.specialization = specialization;
+        this.managerId = managerId;
+        this.employee = employee;
+        this.visits = visits;
     }
 
     public String getSpecialization() {
@@ -88,11 +68,4 @@ public class Doctor extends Employee {
         this.employee = employee;
     }
 
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
-    }
 }

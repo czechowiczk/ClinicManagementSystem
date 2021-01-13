@@ -1,27 +1,24 @@
 package com.example.clinic.Patient;
 
+import com.example.clinic.Chat.Chat;
 import com.example.clinic.User.*;
+import com.example.clinic.Visit.IdVisitClass;
+import com.example.clinic.Visit.Visit;
 
 import javax.persistence.*;
 import java.util.Set;
 
-
+@IdClass(IdPatientClass.class)
 @Entity
 @Table(name = "patients")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Patient extends User {
+//@Inheritance(strategy = InheritanceType.JOINED)
+public class Patient extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
-    private Integer id;
-    @Column(name = "id_patient", nullable = false)
-    private Integer patientId;
+    @Column(name = "sex")
     private String sex;
 
-    @Id
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    @JoinColumn(name = "id_patient", referencedColumnName = "id_user")
     private User user;
 
     @OneToMany(mappedBy="patient")
@@ -30,13 +27,14 @@ public class Patient extends User {
     @OneToMany(mappedBy="patient")
     private Set<LaboratoryTest> tests;
 
+    @OneToMany(mappedBy = "patient")
+    private Set<Visit> visits;
+
+    @OneToMany(mappedBy = "patient")
+    private Set<Chat> chats;
+
 
     public Patient() {
-    }
-
-    public Patient(Integer patientId) {
-        super();
-        this.patientId = patientId;
     }
 
     public Patient(Integer id,
@@ -45,23 +43,21 @@ public class Patient extends User {
                    Long PESEL,
                    int age,
                    String password,
-                   Integer id1,
                    String sex) {
         super(id, name, surname, PESEL, age, password);
-        this.id = id1;
         this.sex = sex;
     }
 
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
+//
+//    @Override
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    @Override
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 
     public String getSex() {
         return sex;
@@ -69,13 +65,5 @@ public class Patient extends User {
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    public Integer getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(Integer patientId) {
-        this.patientId = patientId;
     }
 }

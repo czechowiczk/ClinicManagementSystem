@@ -1,70 +1,67 @@
 package com.example.clinic.Employee;
 
-import com.example.clinic.Patient.IdDiseaseClass;
-import com.example.clinic.Salary.Salary;
 import com.example.clinic.User.User;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@IdClass(IdEmployeeClass.class)
 @Entity
 @Table(name = "employees")
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee extends User {
-    @Id
-    @Column(name = "id_user")
-    private Integer id;
-    @Column(name = "id_employee")
-    private Integer employeeId;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_user")
+//    private Integer userId;
+    //@Id
+//    @Column(name = "id_employee")
+//    private Integer employeeId;
 
-    @Id
+    //@Id
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    @JoinColumn(name = "id_employee", referencedColumnName = "id_user")
     private User user;
 
-    @OneToMany(mappedBy = "employee")
-    private Set<Doctor> doctors;
+                // łączenie managera z employee
+//    @OneToOne(mappedBy = "employee")
+//    private Manager manager;
+
+//    @Id
+//    @ManyToOne
+//    @JoinColumn(name = "id_employee", insertable=false, updatable=false)
+//    private Doctor doctor;
+
+//    @OneToMany(mappedBy = "employee")
+//    private Set<Salary> salaries;
 
     @OneToMany(mappedBy = "employee")
-    private Set<Salary> salaries;
-
-    @OneToMany(mappedBy = "patient")
     private Set<Timetable> timetables;
 
-    @OneToMany(mappedBy = "patient")
-    private Set<AdmEmployee> admEmployees;
+    @OneToOne(mappedBy = "employee")
+    private Doctor doctor;
+
+    @OneToOne(mappedBy = "employee")
+    private AdmEmployee admEmployee;
 
     public Employee() {
     }
 
-    public Employee(Integer employeeId) {
-        super();
-        this.employeeId = employeeId;
-    }
-
     public Employee(String name, String surname, Long PESEL, int age, String password, Integer id) {
         super(name, surname, PESEL, age, password);
-        this.id = id;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+        //this.userId = id;
     }
 
 
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
+//    @Override
+//    public Integer getId() {
+//        return userId;
+//    }
+//
+//    @Override
+//    public void setId(Integer id) {
+//        this.userId = id;
+//    }
 
 
 }

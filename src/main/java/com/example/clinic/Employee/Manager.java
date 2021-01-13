@@ -7,21 +7,21 @@ import com.example.clinic.Patient.Patient;
 import javax.persistence.*;
 import java.util.Set;
 
-@IdClass(IdManagerClass.class)
+//@IdClass(IdManagerClass.class)
 @Entity
 @Table
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Manager extends Employee{
-    @Id
+//@Inheritance(strategy = InheritanceType.JOINED)
+public class Manager extends Employee {
+    //@Id
     @Column(name = "id_manager")
     private Integer managerId;
-    @Column(name="id_employee", nullable = false)
+    @Column(name="id_employee")
     private Integer employeeId;
 
-    @Id
-    @OneToOne
-    @JoinColumn(name = "id_employee", insertable=false, updatable=false)
-    private Employee employee;
+    //@Id       // Łączenie managera z employee
+//    @OneToOne
+//    @JoinColumn(name = "id_employee", insertable=false, updatable=false)
+//    private Employee employee;
 
     @OneToMany(mappedBy = "manager")
     private Set<Doctor> doctors;
@@ -43,23 +43,5 @@ public class Manager extends Employee{
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
-    }
-
-    @Override
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    @Override
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 }

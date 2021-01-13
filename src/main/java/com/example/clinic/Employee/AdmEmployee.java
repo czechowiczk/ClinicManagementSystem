@@ -6,25 +6,17 @@ import javax.persistence.*;
 
 @IdClass(IdAdmEmployeeClass.class)
 @Entity
-@Table
+@Table(name = "administration_employees")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class AdmEmployee extends Employee {
-    @Id
-    @Column(name = "id_admemployee")
-    private Integer admEmployeeId;
-    @Column(name="id_employee", nullable = false)
-    private Integer employeeId;
     @Column(name = "type")
     private String type;
-    @Column(name = "id_manager")
-    private Integer managerId;
 
-    @Id
     @OneToOne
-    @JoinColumn(name = "id_employee", insertable=false, updatable=false)
+    @JoinColumn(name = "id_admemployee", referencedColumnName = "id_employee", insertable=false, updatable=false)
     private Employee employee;
 
-    @Id
+//    @Id
     @ManyToOne
     @JoinColumn(name = "id_manager", insertable=false, updatable=false)
     private Manager manager;
@@ -34,25 +26,6 @@ public class AdmEmployee extends Employee {
 
     public AdmEmployee(String name, String surname, Long PESEL, int age, String password, Integer id, Integer admEmployeeId) {
         super(name, surname, PESEL, age, password, id);
-        this.admEmployeeId = admEmployeeId;
-    }
-
-    public Integer getAdmEmployeeId() {
-        return admEmployeeId;
-    }
-
-    public void setAdmEmployeeId(Integer admEmployeeId) {
-        this.admEmployeeId = admEmployeeId;
-    }
-
-    @Override
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    @Override
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
     }
 
     public String getType() {
@@ -61,14 +34,6 @@ public class AdmEmployee extends Employee {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
     }
 
     public Employee getEmployee() {
