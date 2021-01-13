@@ -1,8 +1,6 @@
 package com.example.clinic.Patient;
 
-import com.example.clinic.Chat.Chat;
 import com.example.clinic.User.*;
-import com.example.clinic.Visit.Visit;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -26,17 +24,11 @@ public class Patient extends User {
     @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy="patient")
     private Set<Disease> diseases;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy="patient")
     private Set<LaboratoryTest> tests;
-
-    @OneToMany(mappedBy = "patient")
-    private Set<Chat> chats;
-
-    @OneToMany(mappedBy = "patient")
-    private Set<Visit> visits;
 
 
     public Patient() {
