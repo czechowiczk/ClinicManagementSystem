@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @javax.persistence.Id
@@ -31,11 +31,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "user")
-    private Patient patient;
+
+
 
     @OneToOne(mappedBy = "user")
-    private Employee employee;
+    private Patient patient;
 
     public User() {
     }

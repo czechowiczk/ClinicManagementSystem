@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@IdClass(IdVisitClass.class)
 @Entity
 @Table(name = "visits")
 public class Visit {
@@ -28,12 +27,10 @@ public class Visit {
     @Column(name = "time")
     private LocalTime time;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_doctor", insertable=false, updatable=false)
     private Doctor doctor;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;

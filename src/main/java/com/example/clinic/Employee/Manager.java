@@ -11,14 +11,13 @@ import java.util.Set;
 @Entity
 @Table
 //@Inheritance(strategy = InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "id_manager")
 public class Manager extends Employee {
     //@Id
-    @Column(name = "id_manager")
-    private Integer managerId;
     @Column(name="id_employee")
     private Integer employeeId;
 
-    //@Id       // Łączenie managera z employee
+//    @Id       // Łączenie managera z employee
 //    @OneToOne
 //    @JoinColumn(name = "id_employee", insertable=false, updatable=false)
 //    private Employee employee;
@@ -32,16 +31,7 @@ public class Manager extends Employee {
     public Manager() {
     }
 
-    public Manager(String name, String surname, Long PESEL, int age, String password, Integer id, Integer managerId) {
-        super(name, surname, PESEL, age, password, id);
-        this.managerId = managerId;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
+    public Manager(String name, String surname, Long PESEL, int age, String password) {
+        super(name, surname, PESEL, age, password);
     }
 }

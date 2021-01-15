@@ -6,7 +6,6 @@ import com.example.clinic.Employee.Manager;
 
 import javax.persistence.*;
 
-@IdClass(IdSalaryClass.class)
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,12 +23,12 @@ public class Salary {
     private Integer cashAmount;
 
 
-    @Id
+    //@Id
     @ManyToOne
     @JoinColumn(name = "id_employee", insertable=false, updatable=false)
     private Employee employee;
 
-    @Id
+    //@Id
     @ManyToOne
     @JoinColumn(name = "id_manager", insertable=false, updatable=false)
     private Manager manager;

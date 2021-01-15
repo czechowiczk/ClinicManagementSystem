@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@IdClass(IdLabTestClass.class)
+//@IdClass(IdLabTestClass.class)
 @Entity
 @Table(name = "laboratory_tests")
 public class LaboratoryTest {
@@ -22,7 +22,7 @@ public class LaboratoryTest {
     @Column(name = "description")
     private String description;
 
-    @Id
+    //@Id
     @ManyToOne
     @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;

@@ -3,7 +3,6 @@ package com.example.clinic.Patient;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@IdClass(IdDiseaseClass.class)
 @Entity
 @Table(name = "disease_history")
 public class Disease {
@@ -19,7 +18,7 @@ public class Disease {
     @Column(name = "date")
     private LocalDate date;
 
-    @Id
+    //@Id
     @ManyToOne
     @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;

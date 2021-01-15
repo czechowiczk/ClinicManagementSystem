@@ -8,18 +8,12 @@ import com.example.clinic.Visit.Visit;
 import javax.persistence.*;
 import java.util.Set;
 
-@IdClass(IdPatientClass.class)
 @Entity
-@Table(name = "patients")
-//@Inheritance(strategy = InheritanceType.JOINED)
-public class Patient extends User{
+@Table
+@PrimaryKeyJoinColumn(name = "id_patient")
+public class Patient extends User {
 
-    @Column(name = "sex")
-    private String sex;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_patient", referencedColumnName = "id_user")
-    private User user;
+    private Sex sex;
 
     @OneToMany(mappedBy="patient")
     private Set<Disease> diseases;
@@ -33,6 +27,10 @@ public class Patient extends User{
     @OneToMany(mappedBy = "patient")
     private Set<Chat> chats;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_user", insertable = false, updatable = false)
+    User user;
+
 
     public Patient() {
     }
@@ -45,7 +43,6 @@ public class Patient extends User{
                    String password,
                    String sex) {
         super(id, name, surname, PESEL, age, password);
-        this.sex = sex;
     }
 
 //
@@ -58,12 +55,4 @@ public class Patient extends User{
 //    public void setId(Integer id) {
 //        this.id = id;
 //    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
 }

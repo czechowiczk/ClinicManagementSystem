@@ -5,7 +5,6 @@ import com.example.clinic.Patient.IdDiseaseClass;
 import javax.persistence.*;
 import java.time.LocalTime;
 
-@IdClass(IdTimetableClass.class)
 @Entity
 @Table(name = "timetable")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -22,7 +21,7 @@ public class Timetable {
     @Column(name="end_hour")
     private LocalTime endHour;
 
-    @Id
+    //@Id
     @ManyToOne
     @JoinColumn(name = "id_employee", insertable=false, updatable=false)
     private Employee employee;

@@ -9,19 +9,15 @@ import com.example.clinic.Visit.Visit;
 import javax.persistence.*;
 import java.util.Set;
 
-@IdClass(IdDoctorClass.class)
 @Entity
 @Table(name = "doctors")
 @Inheritance(strategy = InheritanceType.JOINED)
+@PrimaryKeyJoinColumn(name = "id_doctor")
 public class Doctor extends Employee {
     @Column(name="specialization")
     private String specialization;
     @Column(name="id_manager")
     private Integer managerId;
-
-    @OneToOne
-    @JoinColumn(name = "id_doctor")
-    private Employee employee;
 
     @OneToMany(mappedBy = "doctor")
     private Set<Visit> visits;
@@ -37,10 +33,9 @@ public class Doctor extends Employee {
     }
 
     public Doctor(String name, String surname, Long PESEL, int age, String password, Integer id, String specialization, Integer managerId, Employee employee, Set<Visit> visits) {
-        super(name, surname, PESEL, age, password, id);
+        super(name, surname, PESEL, age, password);
         this.specialization = specialization;
         this.managerId = managerId;
-        this.employee = employee;
         this.visits = visits;
     }
 
@@ -58,14 +53,6 @@ public class Doctor extends Employee {
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
 }
