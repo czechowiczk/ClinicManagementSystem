@@ -1,11 +1,11 @@
-package com.vaadin.tutorial.gui;
+package com.vaadin.tutorial.gui.view.list;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.tutorial.backend.entity.Company;
 import com.vaadin.tutorial.backend.entity.Contact;
 import com.vaadin.flow.component.grid.Grid;
@@ -13,17 +13,18 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.tutorial.backend.service.CompanyService;
 import com.vaadin.tutorial.backend.service.ContactService;
+import com.vaadin.tutorial.gui.MainLayout;
 
-@Route("")
-@CssImport("./styles/shared-styles.css")
-public class MainView extends VerticalLayout {
+@Route(value="", layout = MainLayout.class)
+@PageTitle("Contacts | Vaadin CRM")
+public class ListView extends VerticalLayout {
 
     private final ContactForm form;
     private Grid<Contact> grid = new Grid<>(Contact.class);
     TextField filterText = new TextField();
     private ContactService contactService;
 
-    public MainView(ContactService contactService, CompanyService companyService) {
+    public ListView(ContactService contactService, CompanyService companyService) {
         this.contactService = contactService;
         addClassName("list-view"); //nazwa klasy do css
         setSizeFull();

@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.gui;
+package com.vaadin.tutorial.gui.view.list;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
