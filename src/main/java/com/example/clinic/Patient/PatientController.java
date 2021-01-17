@@ -1,5 +1,11 @@
 package com.example.clinic.Patient;
 
+import com.vaadin.tutorial.backend.entity.Disease;
+import com.vaadin.tutorial.backend.entity.LaboratoryTest;
+import com.vaadin.tutorial.backend.entity.Patient;
+import com.vaadin.tutorial.backend.service.DiseaseService;
+import com.vaadin.tutorial.backend.service.LaboratoryTestService;
+import com.vaadin.tutorial.backend.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;

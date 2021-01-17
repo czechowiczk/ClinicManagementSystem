@@ -1,5 +1,9 @@
 package com.example.clinic.Employee;
 
+import com.vaadin.tutorial.backend.entity.Employee;
+import com.vaadin.tutorial.backend.entity.Timetable;
+import com.vaadin.tutorial.backend.service.EmployeeService;
+import com.vaadin.tutorial.backend.service.TimetableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +24,7 @@ public class EmployeeController {
 //    @Qualifier("Doctor")
 //    private final DoctorService doctorService;
     @Qualifier("Timetable")
-    private final  TimetableService timetableService;
+    private final TimetableService timetableService;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService, TimetableService timetableService) {

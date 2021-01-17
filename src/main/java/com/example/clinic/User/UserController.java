@@ -1,5 +1,7 @@
 package com.example.clinic.User;
 
+import com.vaadin.tutorial.backend.entity.User;
+import com.vaadin.tutorial.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +20,12 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getUsers() {
-        return userService.getUsers();
+        return userService.getAll();
     }
 
     @PostMapping
     public void registerNewUser(@RequestBody User user) {
-        userService.addNewUser(user);
+        userService.update(user);
     }
 
 

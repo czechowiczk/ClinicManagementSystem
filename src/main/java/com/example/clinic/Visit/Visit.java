@@ -1,7 +1,7 @@
 package com.example.clinic.Visit;
 
-import com.example.clinic.Employee.Doctor;
-import com.example.clinic.Patient.Patient;
+import com.vaadin.tutorial.backend.entity.Doctor;
+import com.vaadin.tutorial.backend.entity.Patient;
 
 import javax.persistence.*;
 import java.time.LocalDate;
