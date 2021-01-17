@@ -6,8 +6,11 @@ import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.tutorial.backend.entity.Role;
 import com.vaadin.tutorial.backend.entity.User;
 import com.vaadin.tutorial.backend.repository.UserRepository;
+import com.vaadin.tutorial.gui.view.home.HomeView;
 import com.vaadin.tutorial.gui.view.main.MainView;
-import com.vaadin.tutorial.gui.view.list.ListView;
+import com.vaadin.tutorial.gui.view.user.diseases.DiseaseList;
+import com.vaadin.tutorial.gui.view.user.tests.LaboratoryTestList;
+import com.vaadin.tutorial.gui.view.user.visits.VisitsList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +46,10 @@ public class AuthService {
     public List<AuthorizedRoute> getAuthorizedRoutes(Role role) {
         ArrayList<AuthorizedRoute> routes = new ArrayList<>();
         if(role.equals(Role.PATIENT)) {
-            routes.add(new AuthorizedRoute("list", "List", ListView.class));
+            routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
+            routes.add(new AuthorizedRoute("visits", "Visit", VisitsList.class));
+            routes.add(new AuthorizedRoute("diseases", "Disease", DiseaseList.class));
+            routes.add(new AuthorizedRoute("tests", "Test", LaboratoryTestList.class));
         }
         else if(role.equals(Role.ADM_EMPLOYEE)){
 
@@ -55,7 +61,7 @@ public class AuthService {
 
         }
         else {
-            routes.add(new AuthorizedRoute("list", "List", ListView.class));
+            routes.add(new AuthorizedRoute("list", "List", VisitsList.class));
         }
 
         return routes;

@@ -78,12 +78,17 @@ public class MainView extends AppLayout {
         layout.setSizeFull();
         layout.setPadding(false);
         layout.setSpacing(false);
-        layout.getThemeList().set("spacing-s", true);
+        layout.getThemeList().set("dark", true);
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
         HorizontalLayout logoLayout = new HorizontalLayout();
+        logoLayout.getThemeList().set("dark", true);
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        logoLayout.add(new H1("Clinic"));
+        Image image = new Image("icons/logo.png", "logo");
+        image.setHeight("150px");
+        image.setWidth("150px");
+        logoLayout.add(new H1("  Clinic"));
+        logoLayout.add(image);
         layout.add(logoLayout, menu);
         return layout;
     }

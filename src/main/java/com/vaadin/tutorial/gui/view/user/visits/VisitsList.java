@@ -1,23 +1,24 @@
-package com.vaadin.tutorial.gui.view.list;
+package com.vaadin.tutorial.gui.view.user.visits;
 
+import com.vaadin.tutorial.backend.service.VisitService;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.tutorial.backend.entity.User;
 import com.vaadin.tutorial.gui.view.main.MainView;
 
-@Route(value="list", layout = MainView.class)
-@PageTitle("Contacts | Vaadin CRM")
-public class ListView extends VerticalLayout {
+@Route(value="visits", layout = MainView.class)
+@PageTitle("Visits | Clinic")
+public class VisitsList extends VerticalLayout {
 
-
-
-//    private final ContactForm form;
-//    private Grid<Contact> grid = new Grid<>(Contact.class);
-//    TextField filterText = new TextField();
-//    private ContactService contactService;
+    private Grid<User> grid = new Grid<>(User.class);
+    TextField filterText = new TextField();
+    private VisitService visitService;
 //
-//    public ListView(ContactService contactService, CompanyService companyService) {
-//        this.contactService = contactService;
+//    public VisitsList(UserService userService, VisitService visitService) {
+//        this.visitService = visitService;
 //        addClassName("list-view"); //nazwa klasy do css
 //        setSizeFull();
 //
@@ -40,7 +41,7 @@ public class ListView extends VerticalLayout {
 //    }
 //
 //    private void saveContact(ContactForm.SaveEvent event) {
-//        contactService.save(event.getContact());
+//        userService.save(event.getContact());
 //        updateList();
 //        closeEditor();
 //    }
@@ -68,7 +69,7 @@ public class ListView extends VerticalLayout {
 //                editContact(event.getValue()));
 //    }
 //
-//    private void editContact(Contact contact) {
+//    private void editContact(User user) {
 //        if (contact == null) {
 //            closeEditor();
 //        } else {

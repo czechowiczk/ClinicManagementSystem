@@ -2,22 +2,25 @@ package com.vaadin.tutorial.gui.view.home;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.tutorial.backend.entity.Role;
 import com.vaadin.tutorial.backend.entity.User;
+import com.vaadin.tutorial.backend.entity.Visit;
 import com.vaadin.tutorial.backend.service.UserService;
+import com.vaadin.tutorial.backend.service.VisitService;
 import com.vaadin.tutorial.gui.view.main.MainView;
 
 import java.util.Optional;
@@ -25,16 +28,16 @@ import java.util.Optional;
 
 @Route(value = "home", layout = MainView.class)
 @CssImport("./styles/home-view.css")
-@PageTitle("Home")
+@PageTitle("Home | Clinic")
 public class HomeView extends Div {
     private final UserService userService;
+    private final VisitService visitService;
     private User user;
-    private final H2 balanceH2 = new H2();
 
-    public HomeView(UserService userService) {
+    public HomeView(UserService userService, VisitService visitService) {
         addClassName("home-view");
         this.userService = userService;
-
+        this.visitService = visitService;
         fetchFreshUser();
 
         setUpLayoutWithUserCredentials();
@@ -45,7 +48,7 @@ public class HomeView extends Div {
         labelFirstName.setValue(user.getName());
         labelFirstName.setReadOnly(true);
 
-        TextField labelLastName = new TextField("Surname:");
+        TextField labelLastName = new TextField("Last name:");
         labelLastName.setValue(user.getSurname());
         labelLastName.setReadOnly(true);
 
@@ -63,6 +66,7 @@ public class HomeView extends Div {
                 labelPesel,
                 labelAge
         );
+        credentialsLayout.getThemeList().set("dark", true);
         credentialsLayout.addClassName("credentials-form");
         credentialsLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
@@ -73,7 +77,8 @@ public class HomeView extends Div {
         buttonTopUp.setAutofocus(true);
         buttonTopUp.addClickListener(event -> showTopUpDialog());
 
-        HorizontalLayout patientLayout = new HorizontalLayout(balanceH2, buttonTopUp);
+
+        HorizontalLayout patientLayout = new HorizontalLayout(buttonTopUp);
         patientLayout.addClassName("patient-layout");
         patientLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
@@ -99,37 +104,46 @@ public class HomeView extends Div {
         dialog.setId("dialog-top-up");
         dialog.setCloseOnOutsideClick(false);
 
+
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setId("vert-layout-top-up");
-        TextField textFieldTransactionTitle = new TextField("Tytuł ");
+        TextField purpose = new TextField("Purpose");
+        DatePicker datePicker = new DatePicker("Date");
+        TimePicker timePicker = new TimePicker("Time");
+        TextField description = new TextField("Description (optional)");
+
 
         verticalLayout.add(
                 new Text("Book visitation"),
-                textFieldTransactionTitle
+                purpose,
+                datePicker,
+                timePicker,
+                description
                 );
 
-        Button confirmButton = new Button("Potwierdź", event -> {
+        Button confirmButton = new Button("Confirm", event -> {
 
-            if (!textFieldTransactionTitle.getValue().isEmpty()) {
-                // dodawanie wizyty dorobić
-                //transactionService.save(transaction);
-
-                //balanceH2.setText(roundOff(newBalance));
+            if (!purpose.getValue().isEmpty()) {
+                // all user's visits
+                //visitService.getUsersVisits(user.getId());
+                // dodać wybieranie lekarza !!!!!!!!!!!!!!!!! BARTI
+                // konstruktor jest gotowy :)
+                Visit visit = new Visit(datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
+                visitService.save(visit);
                 dialog.close();
             } else {
-                textFieldTransactionTitle.setErrorMessage("Tytuł wpłaty nie może być pusty");
+                purpose.setErrorMessage("Purpose cannot be empty");
             }
 
         });
 
-        Button cancelButton = new Button("Anuluj", event -> {
+        Button cancelButton = new Button("Cancel", event -> {
             dialog.close();
         });
 
         verticalLayout.add(new HorizontalLayout(confirmButton, cancelButton));
         verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-
 
         dialog.add(verticalLayout);
         dialog.open();
@@ -152,7 +166,6 @@ public class HomeView extends Div {
             throw new UserNotFoundException();
         }
     }
-
 
     public static class UserNotFoundException extends Exception {
 

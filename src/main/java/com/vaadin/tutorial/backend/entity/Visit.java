@@ -1,7 +1,4 @@
-package com.example.clinic.Visit;
-
-import com.vaadin.tutorial.backend.entity.Doctor;
-import com.vaadin.tutorial.backend.entity.Patient;
+package com.vaadin.tutorial.backend.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +9,7 @@ import java.time.LocalTime;
 public class Visit {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_visit")
     private Integer visitId;
     @Column(name = "id_doctor")
@@ -26,6 +24,22 @@ public class Visit {
     private String description;
     @Column(name = "time")
     private LocalTime time;
+
+    public Visit(LocalDate date, String purpose, String description, LocalTime time) {
+        this.date = date;
+        this.purpose = purpose;
+        this.description = description;
+        this.time = time;
+    }
+
+    public Visit(Integer doctorId, Integer patientId, LocalDate date, String purpose, String description, LocalTime time) {
+        this.doctorId = doctorId;
+        this.patientId = patientId;
+        this.date = date;
+        this.purpose = purpose;
+        this.description = description;
+        this.time = time;
+    }
 
     @ManyToOne
     @JoinColumn(name = "id_doctor", insertable=false, updatable=false)

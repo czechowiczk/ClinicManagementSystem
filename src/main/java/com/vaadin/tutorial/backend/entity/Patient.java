@@ -1,7 +1,6 @@
 package com.vaadin.tutorial.backend.entity;
 
 import com.example.clinic.Patient.Sex;
-import com.example.clinic.Visit.Visit;
 
 import javax.persistence.*;
 import java.util.Set;

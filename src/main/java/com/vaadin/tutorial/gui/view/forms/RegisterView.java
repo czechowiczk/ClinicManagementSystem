@@ -50,9 +50,6 @@ public class RegisterView extends Composite {
                 confirmPassword,
                 pesel,
                 age
-                //dateOfBirth,
-                //emailField,
-                //phone
         );
 
         formLayout.setResponsiveSteps(
@@ -89,7 +86,10 @@ public class RegisterView extends Composite {
             Notification.show("Enter a firstName");
         } else if(lastName.isEmpty()) {
             Notification.show("Enter a lastName");
-        } else {
+        } else if((age+"").equals("")){
+            Notification.show("Enter your age");
+        }
+        else {
             authService.register(firstName, lastName, Long.parseLong(pesel), age, password);
             Notification.show("Registration succeeded.");
             try {

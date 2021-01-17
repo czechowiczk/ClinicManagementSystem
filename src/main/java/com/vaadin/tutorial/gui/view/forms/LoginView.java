@@ -14,22 +14,22 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.tutorial.backend.service.AuthService;
 
 @Route(value = "login")
-@PageTitle("Login | Vaadin CRM")
+@PageTitle("Login | Clinic")
 @CssImport("./styles/login-view.css")
 public class LoginView extends Div {
 
 
     public LoginView(AuthService authService) {
         setId("login-view");
-        setMinWidth("40%");
-        setMaxWidth("30%");
+        setWidth("20%");
 
         TextField username = new TextField("Username");
         PasswordField password = new PasswordField("Password");
+        username.setId("login-view-username");
         password.setId("login-view-password");
 
         add(
-                new H1("Welcome"),
+                new H1("Welcome in clinic"),
                 username,
                 password,
                 new Button("Login", event -> {
