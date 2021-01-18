@@ -48,7 +48,12 @@ public class UserService implements Dao<User>{
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findAll(Integer id) {
         return userRepository.findAll();
     }
 }

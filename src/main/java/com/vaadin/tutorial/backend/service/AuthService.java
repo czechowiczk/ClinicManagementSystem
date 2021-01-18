@@ -10,7 +10,7 @@ import com.vaadin.tutorial.gui.view.home.HomeView;
 import com.vaadin.tutorial.gui.view.main.MainView;
 import com.vaadin.tutorial.gui.view.user.diseases.DiseaseList;
 import com.vaadin.tutorial.gui.view.user.tests.LaboratoryTestList;
-import com.vaadin.tutorial.gui.view.user.visits.VisitsList;
+import com.vaadin.tutorial.gui.view.user.visits.VisitList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +47,7 @@ public class AuthService {
         ArrayList<AuthorizedRoute> routes = new ArrayList<>();
         if(role.equals(Role.PATIENT)) {
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
-            routes.add(new AuthorizedRoute("visits", "Visit", VisitsList.class));
+            routes.add(new AuthorizedRoute("visits", "Visit", VisitList.class));
             routes.add(new AuthorizedRoute("diseases", "Disease", DiseaseList.class));
             routes.add(new AuthorizedRoute("tests", "Test", LaboratoryTestList.class));
         }
@@ -61,7 +61,7 @@ public class AuthService {
 
         }
         else {
-            routes.add(new AuthorizedRoute("list", "List", VisitsList.class));
+            routes.add(new AuthorizedRoute("list", "List", VisitList.class));
         }
 
         return routes;

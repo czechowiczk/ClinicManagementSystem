@@ -13,6 +13,8 @@ public interface Dao<T>{
 
     Optional<T> get(Integer id);
 
-    List<T> getAll();
+    List<T> findAll();
+
+    List<T> findAll(Integer id);
 
 }

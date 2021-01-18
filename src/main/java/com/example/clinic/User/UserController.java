@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/users")
     public List<User> getUsers() {
-        return userService.getAll();
+        return userService.findAll();
     }
 
     @PostMapping

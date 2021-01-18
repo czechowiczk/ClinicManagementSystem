@@ -40,7 +40,13 @@ public class VisitService implements Dao<Visit>{
     }
 
     @Override
-    public List<Visit> getAll() {
+    public List<Visit> findAll() {
         return visitRepository.findAll();
     }
+
+    public List<Visit> findAll(Integer id) {
+        return visitRepository.search(id);
+    }
+
+
 }
