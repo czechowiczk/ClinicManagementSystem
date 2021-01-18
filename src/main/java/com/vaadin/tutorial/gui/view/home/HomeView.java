@@ -147,7 +147,7 @@ public class HomeView extends Div {
                 // dodać wybieranie lekarza !!!!!!!!!!!!!!!!! BARTI
                 // konstruktor jest gotowy :)
                 // user.getId();
-                Visit visit = new Visit(docId, VaadinSession.getCurrent().getAttribute(User.class).getId(),datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
+                Visit visit = new Visit(docId, user.getId(), datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
                 visitService.save(visit);
                 dialog.close();
             } else {

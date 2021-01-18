@@ -5,7 +5,9 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(indexes = {
+        @Index(name = "pesel_idx", columnList = "pesel", unique = true)
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @javax.persistence.Id

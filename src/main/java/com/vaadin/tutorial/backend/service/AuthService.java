@@ -5,7 +5,7 @@ import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.tutorial.backend.entity.Role;
 import com.vaadin.tutorial.backend.entity.User;
-import com.vaadin.tutorial.backend.repository.UserRepository;
+import com.vaadin.tutorial.backend.repository.*;
 import com.vaadin.tutorial.gui.view.home.HomeView;
 import com.vaadin.tutorial.gui.view.main.MainView;
 import com.vaadin.tutorial.gui.view.manager.addEmployee.AddEmployee;
@@ -23,8 +23,24 @@ public class AuthService {
     @Autowired
     private final UserRepository userRepository;
 
-    public AuthService(@Autowired UserRepository userRepository) {
+    @Autowired
+    private final EmployeeRepository employeeRepository;
+
+    @Autowired
+    private final DoctorRepository doctorRepository;
+
+    @Autowired
+    private final AdmEmployeeRepository admEmployeeRepository;
+
+    @Autowired
+    private final ManagerRepository managerRepository;
+
+    public AuthService(@Autowired UserRepository userRepository, @Autowired EmployeeRepository employeeRepository, DoctorRepository doctorRepository, AdmEmployeeRepository admEmployeeRepository, ManagerRepository managerRepository) {
         this.userRepository = userRepository;
+        this.employeeRepository = employeeRepository;
+        this.doctorRepository = doctorRepository;
+        this.admEmployeeRepository = admEmployeeRepository;
+        this.managerRepository = managerRepository;
     }
 
     public void authenticate(String username, String password) throws AuthException {
@@ -70,13 +86,23 @@ public class AuthService {
     }
 
 
-    public void register(String firstName, String lastName, Long pesel, Integer age, String password, Role userRole) {
+    public void hire(String firstName, String lastName, Long pesel, Integer age, String password, Role userRole, Integer managerId, String specialization, String type) {
         User user = new User(firstName, lastName, pesel, age, password, userRole);
+        userRepository.save(user);
+
+        employeeRepository.insertUser(user.getId());
+
+        if(userRole == Role.DOCTOR)
+            doctorRepository.insertDoctor(managerId, specialization, user.getId());
+        else if(userRole == Role.ADM_EMPLOYEE)
+            admEmployeeRepository.insertAdmEmployee(type, user.getId(), managerId);
+        else if(userRole == Role.MANAGER)
+            managerRepository.insertManager(user.getId());
+
+
 //
 //        user.setAccount(account);
 //        account.setUser(user);
-
-        userRepository.save(user);
         //accountRepository.save(account);
     }
     public void register(String firstName, String lastName, Long pesel, Integer age, String password) {

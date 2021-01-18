@@ -4,13 +4,11 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -29,21 +27,15 @@ public class RegisterView extends Composite {
 
     @Override
     protected Component initContent() {
-        TextField username = new TextField("Username");
         PasswordField password = new PasswordField("Password");
         PasswordField confirmPassword = new PasswordField("Confirm Password");
         TextField firstName = new TextField("First Name");
         TextField lastName = new TextField("Last Name");
         TextField pesel = createPesel();
         TextField age = new TextField("Your age");
-        TextField address = new TextField("Address", "Home Address");
-        DatePicker dateOfBirth = new DatePicker("Date of Birth");
-        EmailField emailField = createEmail();
-        TextField phone = createPhone();
 
 
         FormLayout formLayout = new FormLayout(
-                //username,
                 firstName,
                 lastName,
                 password,
@@ -100,23 +92,6 @@ public class RegisterView extends Composite {
                 UI.getCurrent().navigate("login");
             }
         }
-    }
-
-    private EmailField createEmail() {
-        EmailField emailField = new EmailField("Email");
-        emailField.setClearButtonVisible(true);
-        emailField.setErrorMessage("Please enter a valid email address");
-        return emailField;
-    }
-
-    private TextField createPhone() {
-        TextField phone = new TextField("Phone");
-        phone.setPattern("[0-9]*");
-        phone.setPreventInvalidInput(true);
-        phone.setMaxLength(9);
-        phone.setPlaceholder("123456789");
-
-        return phone;
     }
 
     private TextField createPesel() {

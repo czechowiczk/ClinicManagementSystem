@@ -10,8 +10,6 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "id_manager")
 public class Manager extends Employee {
     //@Id
-    @Column(name="id_employee")
-    private Integer employeeId;
 
 //    @Id       // Łączenie managera z employee
 //    @OneToOne
