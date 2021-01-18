@@ -25,6 +25,9 @@ public class Visit {
     @Column(name = "time")
     private LocalTime time;
 
+    public Visit() {
+    }
+
     public Visit(LocalDate date, String purpose, String description, LocalTime time) {
         this.date = date;
         this.purpose = purpose;

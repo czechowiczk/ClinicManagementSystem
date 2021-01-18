@@ -11,18 +11,23 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import com.vaadin.tutorial.backend.entity.Doctor;
 import com.vaadin.tutorial.backend.entity.Role;
 import com.vaadin.tutorial.backend.entity.User;
 import com.vaadin.tutorial.backend.entity.Visit;
+import com.vaadin.tutorial.backend.service.DoctorService;
 import com.vaadin.tutorial.backend.service.UserService;
 import com.vaadin.tutorial.backend.service.VisitService;
 import com.vaadin.tutorial.gui.view.main.MainView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -32,12 +37,15 @@ import java.util.Optional;
 public class HomeView extends Div {
     private final UserService userService;
     private final VisitService visitService;
+    private final DoctorService doctorService;
     private User user;
+    Integer docId = 0;
 
-    public HomeView(UserService userService, VisitService visitService) {
+    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService) {
         addClassName("home-view");
         this.userService = userService;
         this.visitService = visitService;
+        this.doctorService = doctorService;
         fetchFreshUser();
 
         setUpLayoutWithUserCredentials();
@@ -111,24 +119,37 @@ public class HomeView extends Div {
         DatePicker datePicker = new DatePicker("Date");
         TimePicker timePicker = new TimePicker("Time");
         TextField description = new TextField("Description (optional)");
+        Select<Doctor> label = new Select<>();
+        List<Doctor> doctorsList = doctorService.findAll();
+        List<String> names = new ArrayList<>();
+        label.setLabel("Doctor");
 
+        label.setItems(doctorsList);
+
+        label.addValueChangeListener(e ->
+        {
+            docId = e.getValue().getId();
+        });
 
         verticalLayout.add(
                 new Text("Book visitation"),
                 purpose,
                 datePicker,
                 timePicker,
-                description
+                description,
+                label
                 );
+
 
         Button confirmButton = new Button("Confirm", event -> {
 
             if (!purpose.getValue().isEmpty()) {
                 // all user's visits
-                //visitService.getUsersVisits(user.getId());
+                // visitService.getUsersVisits(user.getId());
                 // dodać wybieranie lekarza !!!!!!!!!!!!!!!!! BARTI
                 // konstruktor jest gotowy :)
-                Visit visit = new Visit(datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
+                // user.getId();
+                Visit visit = new Visit(docId, VaadinSession.getCurrent().getAttribute(User.class).getId(),datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
                 visitService.save(visit);
                 dialog.close();
             } else {

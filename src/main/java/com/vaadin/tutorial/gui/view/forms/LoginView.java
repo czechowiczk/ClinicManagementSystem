@@ -29,7 +29,7 @@ public class LoginView extends Div {
         password.setId("login-view-password");
 
         add(
-                new H1("Welcome in clinic"),
+                new H1("Welcome"),
                 username,
                 password,
                 new Button("Login", event -> {

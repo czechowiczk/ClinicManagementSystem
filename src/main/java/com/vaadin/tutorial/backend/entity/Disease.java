@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Table(name = "disease_history")
 public class Disease {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_disease")
     private Integer diseaseId;
     @Column(name="id_patient", nullable = false)

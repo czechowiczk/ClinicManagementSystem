@@ -1,7 +1,5 @@
 package com.vaadin.tutorial.backend.entity;
 
-import com.example.clinic.Patient.Sex;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,6 +8,8 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "id_patient")
 public class Patient extends User {
 
+    @Column(columnDefinition = "ENUM('MAN', 'WOMAN', 'OTHER')", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Sex sex;
 
     @OneToMany(mappedBy="patient")

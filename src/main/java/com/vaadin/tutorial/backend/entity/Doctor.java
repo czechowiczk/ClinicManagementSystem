@@ -49,4 +49,9 @@ public class Doctor extends Employee {
         this.managerId = managerId;
     }
 
+    @Override
+    public String toString() {
+        return this.getName()+" "+this.getSurname();
+    }
+
 }
