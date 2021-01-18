@@ -8,6 +8,7 @@ import com.vaadin.tutorial.backend.entity.User;
 import com.vaadin.tutorial.backend.repository.UserRepository;
 import com.vaadin.tutorial.gui.view.home.HomeView;
 import com.vaadin.tutorial.gui.view.main.MainView;
+import com.vaadin.tutorial.gui.view.manager.addEmployee.AddEmployee;
 import com.vaadin.tutorial.gui.view.user.diseases.DiseaseList;
 import com.vaadin.tutorial.gui.view.user.tests.LaboratoryTestList;
 import com.vaadin.tutorial.gui.view.user.visits.VisitList;
@@ -58,7 +59,8 @@ public class AuthService {
 
         }
         else if(role.equals(Role.MANAGER)){
-
+            routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
+            routes.add(new AuthorizedRoute("add_employee", "AddEmployee", AddEmployee.class));
         }
         else {
             routes.add(new AuthorizedRoute("list", "List", VisitList.class));

@@ -26,7 +26,6 @@ import com.vaadin.tutorial.backend.service.UserService;
 import com.vaadin.tutorial.backend.service.VisitService;
 import com.vaadin.tutorial.gui.view.main.MainView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,7 +120,6 @@ public class HomeView extends Div {
         TextField description = new TextField("Description (optional)");
         Select<Doctor> label = new Select<>();
         List<Doctor> doctorsList = doctorService.findAll();
-        List<String> names = new ArrayList<>();
         label.setLabel("Doctor");
 
         label.setItems(doctorsList);
