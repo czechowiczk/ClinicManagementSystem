@@ -30,6 +30,13 @@ public class LaboratoryTest {
     public LaboratoryTest() {
     }
 
+    public LaboratoryTest(String type, LocalDate date, String description, Integer patientId) {
+        this.type = type;
+        this.date = date;
+        this.description = description;
+        this.patientId = patientId;
+    }
+
     public LaboratoryTest(Integer patientId, Integer testId, String type, LocalDate date, String description, Patient patient) {
         this.patientId = patientId;
         this.testId = testId;
@@ -37,12 +44,6 @@ public class LaboratoryTest {
         this.date = date;
         this.description = description;
         this.patient = patient;
-    }
-
-    public LaboratoryTest(String type, LocalDate date, String description) {
-        this.type = type;
-        this.date = date;
-        this.description = description;
     }
 
     public Integer getPatientId() {
@@ -75,5 +76,21 @@ public class LaboratoryTest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getTestId() {
+        return testId;
+    }
+
+    public void setTestId(Integer testId) {
+        this.testId = testId;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 }

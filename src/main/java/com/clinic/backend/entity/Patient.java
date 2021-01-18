@@ -34,4 +34,9 @@ public class Patient extends User {
     public Patient(String name, String surname, Long PESEL, int age, String password, Role role) {
         super(name, surname, PESEL, age, password, role);
     }
+
+    @Override
+    public String toString() {
+        return user.getName()+ " "+user.getSurname();
+    }
 }

@@ -49,7 +49,7 @@ public class UserService implements Dao<User>{
         return userRepository.findAll();
     }
 
-    public void modifyUser(String name, String surname, Integer age) {
-        userRepository.modifyUser(name, surname, age);
+    public void modifyUser(String name, String surname, Integer age, Integer idUser) {
+        userRepository.modifyUser(name, surname, age, idUser);
     }
 }

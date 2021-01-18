@@ -62,7 +62,7 @@ public class CredentialsView extends VerticalLayout {
         confirmButton.setIconAfterText(true);
         confirmButton.setAutofocus(true);
         confirmButton.addClickListener(event -> {
-            userService.modifyUser(labelFirstName.getValue(), labelLastName.getValue(), Integer.parseInt(labelAge.getValue()));
+            userService.modifyUser(labelFirstName.getValue(), labelLastName.getValue(), Integer.parseInt(labelAge.getValue()), user.getId());
             UI.getCurrent().navigate("home");
         });
 
