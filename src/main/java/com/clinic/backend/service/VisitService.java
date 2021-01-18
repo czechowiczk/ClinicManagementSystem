@@ -44,9 +44,15 @@ public class VisitService implements Dao<Visit>{
         return visitRepository.findAll();
     }
 
+    @Override
     public List<Visit> findAll(Integer id) {
-        return visitRepository.search(id);
+        return null;
     }
 
+    public List<Visit> findAllPatientsVisits(Integer id) {
+        return visitRepository.searchPatientsVisit(id);
+    }
+
+    public List<Visit> findAllDoctorsVisits(Integer id) { return visitRepository.searchDoctorsVisit(id); }
 
 }

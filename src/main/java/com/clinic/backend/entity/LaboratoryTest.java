@@ -13,6 +13,7 @@ public class LaboratoryTest {
     private Integer patientId;
     @Id
     @Column(name = "id_test")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer testId;
     @Column(name = "type")
     private String type;
@@ -36,6 +37,12 @@ public class LaboratoryTest {
         this.date = date;
         this.description = description;
         this.patient = patient;
+    }
+
+    public LaboratoryTest(String type, LocalDate date, String description) {
+        this.type = type;
+        this.date = date;
+        this.description = description;
     }
 
     public Integer getPatientId() {

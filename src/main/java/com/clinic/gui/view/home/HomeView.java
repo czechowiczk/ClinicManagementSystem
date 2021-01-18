@@ -1,10 +1,7 @@
 package com.clinic.gui.view.home;
 
 import com.clinic.backend.entity.*;
-import com.clinic.backend.service.DiseaseService;
-import com.clinic.backend.service.DoctorService;
-import com.clinic.backend.service.UserService;
-import com.clinic.backend.service.VisitService;
+import com.clinic.backend.service.*;
 import com.clinic.gui.view.main.MainView;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -25,6 +22,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,15 +35,17 @@ public class HomeView extends Div {
     private final VisitService visitService;
     private final DoctorService doctorService;
     private final DiseaseService diseaseService;
+    private final LaboratoryTestService laboratoryTestService;
     private User user;
     Integer docId = 0;
 
-    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService) {
+    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService, LaboratoryTestService laboratoryTestService) {
         addClassName("home-view");
         this.userService = userService;
         this.visitService = visitService;
         this.doctorService = doctorService;
         this.diseaseService = diseaseService;
+        this.laboratoryTestService = laboratoryTestService;
         fetchFreshUser();
 
         setUpLayoutWithUserCredentials();
@@ -78,17 +78,22 @@ public class HomeView extends Div {
         credentialsLayout.addClassName("credentials-form");
         credentialsLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        Button buttonBookVisit = new Button("Book visitation", new Icon(VaadinIcon.PLUS_CIRCLE));
+        Button buttonBookVisit = new Button("Book visitation", new Icon(VaadinIcon.CALENDAR));
         buttonBookVisit.setIconAfterText(true);
         buttonBookVisit.setAutofocus(true);
         buttonBookVisit.addClickListener(event -> showTopUpDialog());
 
-        Button buttonFillDiseaseHistory = new Button("Fill disease history", new Icon(VaadinIcon.CLIPBOARD_PULSE));
+        Button buttonFillDiseaseHistory = new Button("Add disease history", new Icon(VaadinIcon.CLIPBOARD_PULSE));
         buttonFillDiseaseHistory.setIconAfterText(true);
         buttonFillDiseaseHistory.setAutofocus(true);
         buttonFillDiseaseHistory.addClickListener(event -> showFillDisease());
 
-        HorizontalLayout patientLayout = new HorizontalLayout(buttonFillDiseaseHistory, buttonBookVisit);
+        Button buttonFillLaboratoryTest = new Button("Add laboratory test", new Icon(VaadinIcon.CLIPBOARD_CHECK));
+        buttonFillLaboratoryTest.setIconAfterText(true);
+        buttonFillLaboratoryTest.setAutofocus(true);
+        buttonFillLaboratoryTest.addClickListener(event -> showAddTest());
+
+        HorizontalLayout patientLayout = new HorizontalLayout(buttonFillDiseaseHistory, buttonBookVisit, buttonFillLaboratoryTest);
         patientLayout.addClassName("patient-layout");
         patientLayout.setAlignItems(FlexComponent.Alignment.START);
         patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
@@ -125,13 +130,16 @@ public class HomeView extends Div {
                 description
         );
 
+
+
         Button confirmButton = new Button("Confirm", event -> {
-            if (!name.getValue().isEmpty()) {
+            if (!(name.getValue().isEmpty() || datePicker.getValue().isAfter(LocalDate.now()))) {
                 Disease disease = new Disease(datePicker.getValue(), description.getValue(), name.getValue(), VaadinSession.getCurrent().getAttribute(User.class).getId());
                 diseaseService.save(disease);
                 Notification.show("Disease added");
                 dialog.close();
             } else {
+                Notification.show("Wrong date");
                 name.setErrorMessage("Name cannot be empty");
             }
         });
@@ -146,6 +154,7 @@ public class HomeView extends Div {
 
         dialog.add(verticalLayout);
         dialog.open();
+
     }
 
     private void showTopUpDialog() {
@@ -178,13 +187,13 @@ public class HomeView extends Div {
         );
 
         Button confirmButton = new Button("Add", event -> {
-            if (!purpose.getValue().isEmpty()) {
+            if (!(purpose.getValue().isEmpty() || datePicker.getValue().isBefore(LocalDate.now()) || timePicker.isEmpty() || label.isEmpty())) {
                 Visit visit = new Visit(docId, user.getId(), datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
                 visitService.save(visit);
                 Notification.show("Visit booked");
                 dialog.close();
             } else {
-                purpose.setErrorMessage("Purpose cannot be empty");
+                Notification.show("Wrong data");
             }
         });
 
@@ -199,6 +208,46 @@ public class HomeView extends Div {
         dialog.add(verticalLayout);
         dialog.open();
     }
+
+    private void showAddTest() {
+        Dialog dialog = new Dialog();
+        dialog.setCloseOnOutsideClick(false);
+
+        VerticalLayout verticalLayout = new VerticalLayout();
+        TextField type = new TextField("Type");
+        DatePicker datePicker = new DatePicker("Date");
+        TextField description = new TextField("Description (optional)");
+
+        verticalLayout.add(
+                new Text("Add tests"),
+                type,
+                datePicker,
+                description
+        );
+
+        Button confirmButton = new Button("Add", event -> {
+            if (!(type.getValue().isEmpty()|| datePicker.getValue().isAfter(LocalDate.now()))) {
+                LaboratoryTest laboratoryTest = new LaboratoryTest(type.getValue(), datePicker.getValue(), description.getValue());
+                laboratoryTestService.save(laboratoryTest);
+                Notification.show("Test added");
+                dialog.close();
+            } else {
+                Notification.show("Wrong data");
+            }
+        });
+
+        Button cancelButton = new Button("Cancel", event -> {
+            dialog.close();
+        });
+
+        verticalLayout.add(new HorizontalLayout(confirmButton, cancelButton));
+        verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        dialog.add(verticalLayout);
+        dialog.open();
+    }
+
 
     private void fetchFreshUser() {
         try {

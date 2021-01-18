@@ -3,6 +3,7 @@ package com.clinic.backend.service;
 import com.clinic.backend.entity.Role;
 import com.clinic.backend.entity.User;
 import com.clinic.backend.repository.*;
+import com.clinic.gui.view.doctor.visits.BookedVisits;
 import com.clinic.gui.view.home.HomeView;
 import com.clinic.gui.view.main.MainView;
 import com.clinic.gui.view.manager.addEmployee.AddEmployee;
@@ -73,10 +74,12 @@ public class AuthService {
             routes.add(new AuthorizedRoute("tests", "Test", LaboratoryTestList.class));
         }
         else if(role.equals(Role.ADM_EMPLOYEE)){
+            routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
 
         }
         else if(role.equals(Role.DOCTOR)){
-
+            routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
+            routes.add(new AuthorizedRoute("doctorVisits", "Visits", BookedVisits.class));
         }
         else if(role.equals(Role.MANAGER)){
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
