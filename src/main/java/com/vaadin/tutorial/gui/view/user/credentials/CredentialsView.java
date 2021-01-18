@@ -52,19 +52,15 @@ public class CredentialsView extends VerticalLayout {
     private void setUpLayoutWithUserCredentials() {
         TextField labelFirstName = new TextField("First name:");
         labelFirstName.setValue(user.getName());
-        //labelFirstName.setReadOnly(true);
 
         TextField labelLastName = new TextField("Last name:");
         labelLastName.setValue(user.getSurname());
-        //labelLastName.setReadOnly(true);
 
         TextField labelPesel = new TextField("Pesel:");
         labelPesel.setValue(user.getPESEL() + "");
-        //labelPesel.setReadOnly(true);
 
         TextField labelAge = new TextField("Age:");
         labelAge.setValue(user.getAge() + "");
-        //labelAge.setReadOnly(true);
 
         VerticalLayout credentialsLayout = new VerticalLayout(
                 labelFirstName,
@@ -95,9 +91,7 @@ public class CredentialsView extends VerticalLayout {
 
         VerticalLayout verticalLayout = new VerticalLayout();
 
-        if (user.getRole() == Role.PATIENT) {
-            verticalLayout.add(header, credentialsLayout, patientLayout);
-        }
+        verticalLayout.add(header, credentialsLayout, patientLayout);
 
         verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
