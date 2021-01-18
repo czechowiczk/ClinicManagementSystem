@@ -8,6 +8,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,10 +18,8 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.tutorial.backend.entity.Doctor;
-import com.vaadin.tutorial.backend.entity.Role;
-import com.vaadin.tutorial.backend.entity.User;
-import com.vaadin.tutorial.backend.entity.Visit;
+import com.vaadin.tutorial.backend.entity.*;
+import com.vaadin.tutorial.backend.service.DiseaseService;
 import com.vaadin.tutorial.backend.service.DoctorService;
 import com.vaadin.tutorial.backend.service.UserService;
 import com.vaadin.tutorial.backend.service.VisitService;
@@ -37,14 +36,16 @@ public class HomeView extends Div {
     private final UserService userService;
     private final VisitService visitService;
     private final DoctorService doctorService;
+    private final DiseaseService diseaseService;
     private User user;
     Integer docId = 0;
 
-    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService) {
+    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService) {
         addClassName("home-view");
         this.userService = userService;
         this.visitService = visitService;
         this.doctorService = doctorService;
+        this.diseaseService = diseaseService;
         fetchFreshUser();
 
         setUpLayoutWithUserCredentials();
@@ -77,18 +78,20 @@ public class HomeView extends Div {
         credentialsLayout.addClassName("credentials-form");
         credentialsLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
+        Button buttonBookVisit = new Button("Book visitation", new Icon(VaadinIcon.PLUS_CIRCLE));
+        buttonBookVisit.setIconAfterText(true);
+        buttonBookVisit.setAutofocus(true);
+        buttonBookVisit.addClickListener(event -> showTopUpDialog());
 
-        Button buttonTopUp = new Button("Book visitation", new Icon(VaadinIcon.PLUS_CIRCLE));
-        buttonTopUp.setId("button-top-up");
-        buttonTopUp.setIconAfterText(true);
-        buttonTopUp.setAutofocus(true);
-        buttonTopUp.addClickListener(event -> showTopUpDialog());
+        Button buttonFillDiseaseHistory = new Button("Fill disease history", new Icon(VaadinIcon.CLIPBOARD_PULSE));
+        buttonFillDiseaseHistory.setIconAfterText(true);
+        buttonFillDiseaseHistory.setAutofocus(true);
+        buttonFillDiseaseHistory.addClickListener(event -> showFillDisease());
 
-
-        HorizontalLayout patientLayout = new HorizontalLayout(buttonTopUp);
+        HorizontalLayout patientLayout = new HorizontalLayout(buttonFillDiseaseHistory, buttonBookVisit);
         patientLayout.addClassName("patient-layout");
-        patientLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        patientLayout.setAlignItems(FlexComponent.Alignment.START);
+        patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
         VerticalLayout verticalLayout = new VerticalLayout();
 
@@ -106,14 +109,50 @@ public class HomeView extends Div {
         add(verticalLayout);
     }
 
-    private void showTopUpDialog() {
+    private void showFillDisease() {
         Dialog dialog = new Dialog();
-        dialog.setId("dialog-top-up");
         dialog.setCloseOnOutsideClick(false);
 
+        VerticalLayout verticalLayout = new VerticalLayout();
+        TextField name = new TextField("Name");
+        DatePicker datePicker = new DatePicker("Date");
+        TextField description = new TextField("Description");
+
+        verticalLayout.add(
+                new Text("Add disease"),
+                name,
+                datePicker,
+                description
+        );
+
+        Button confirmButton = new Button("Confirm", event -> {
+            if (!name.getValue().isEmpty()) {
+                Disease disease = new Disease(datePicker.getValue(), description.getValue(), name.getValue(), VaadinSession.getCurrent().getAttribute(User.class).getId());
+                diseaseService.save(disease);
+                Notification.show("Disease added");
+                dialog.close();
+            } else {
+                name.setErrorMessage("Name cannot be empty");
+            }
+        });
+
+        Button cancelButton = new Button("Cancel", event -> {
+            dialog.close();
+        });
+
+        verticalLayout.add(new HorizontalLayout(confirmButton, cancelButton));
+        verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        dialog.add(verticalLayout);
+        dialog.open();
+    }
+
+    private void showTopUpDialog() {
+        Dialog dialog = new Dialog();
+        dialog.setCloseOnOutsideClick(false);
 
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setId("vert-layout-top-up");
         TextField purpose = new TextField("Purpose");
         DatePicker datePicker = new DatePicker("Date");
         TimePicker timePicker = new TimePicker("Time");
@@ -136,24 +175,17 @@ public class HomeView extends Div {
                 timePicker,
                 description,
                 label
-                );
+        );
 
-
-        Button confirmButton = new Button("Confirm", event -> {
-
+        Button confirmButton = new Button("Add", event -> {
             if (!purpose.getValue().isEmpty()) {
-                // all user's visits
-                // visitService.getUsersVisits(user.getId());
-                // dodać wybieranie lekarza !!!!!!!!!!!!!!!!! BARTI
-                // konstruktor jest gotowy :)
-                // user.getId();
                 Visit visit = new Visit(docId, user.getId(), datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
                 visitService.save(visit);
+                Notification.show("Visit booked");
                 dialog.close();
             } else {
                 purpose.setErrorMessage("Purpose cannot be empty");
             }
-
         });
 
         Button cancelButton = new Button("Cancel", event -> {

@@ -28,6 +28,13 @@ public class Disease {
     public Disease() {
     }
 
+    public Disease(LocalDate date, String description, String name, Integer patientId) {
+        this.patientId = patientId;
+        this.name = name;
+        this.description = description;
+        this.date = date;
+    }
+
     public Disease(Integer diseaseId, Integer patientId, String name, String description, LocalDate date, Patient patient) {
         this.diseaseId = diseaseId;
         this.patientId = patientId;

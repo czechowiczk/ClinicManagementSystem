@@ -4,11 +4,13 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -17,9 +19,10 @@ import com.vaadin.tutorial.backend.service.AuthService;
 
 @Route("register")
 @PageTitle("Register | BankAP")
-//@CssImport("./styles/views/register/register-view.css")
+@CssImport("./styles/views/register/register-view.css")
 public class RegisterView extends Composite {
     private final AuthService authService;
+    String sex;
 
     public RegisterView(AuthService authService) {
         this.authService = authService;
@@ -33,6 +36,11 @@ public class RegisterView extends Composite {
         TextField lastName = new TextField("Last Name");
         TextField pesel = createPesel();
         TextField age = new TextField("Your age");
+        Select<String> sexPicker = new Select<>();
+        sexPicker.setLabel("Sex");
+        sexPicker.setItems("MAN", "WOMAN", "OTHER");
+
+        sexPicker.addValueChangeListener(event -> sex = event.getValue()+"");
 
 
         FormLayout formLayout = new FormLayout(
@@ -41,7 +49,8 @@ public class RegisterView extends Composite {
                 password,
                 confirmPassword,
                 pesel,
-                age
+                age,
+                sexPicker
         );
 
         formLayout.setResponsiveSteps(
@@ -57,7 +66,8 @@ public class RegisterView extends Composite {
                         firstName.getValue(),
                         lastName.getValue(),
                         pesel.getValue(),
-                        Integer.parseInt(age.getValue())
+                        Integer.parseInt(age.getValue()),
+                        sex
                 )));
 
         verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
@@ -66,7 +76,7 @@ public class RegisterView extends Composite {
     }
 
     private void register(String password, String confirmPassword, String firstName, String lastName,
-                          String pesel, Integer age) {
+                          String pesel, Integer age, String sex) {
 
         if (password.isEmpty()) {
             Notification.show("Enter a password");
@@ -82,7 +92,7 @@ public class RegisterView extends Composite {
             Notification.show("Enter your age");
         }
         else {
-            authService.register(firstName, lastName, Long.parseLong(pesel), age, password);
+            authService.register(firstName, lastName, Long.parseLong(pesel), age, password, sex);
             Notification.show("Registration succeeded.");
             try {
                 Thread.sleep(500);
@@ -99,7 +109,7 @@ public class RegisterView extends Composite {
         id.setPattern("[0-9]*");
         id.setPreventInvalidInput(true);
         id.setMaxLength(11);
-        id.setPlaceholder("10109703223");
+        id.setPlaceholder("12312312312");
 
         return id;
     }

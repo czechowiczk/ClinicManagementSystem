@@ -32,6 +32,7 @@ public class DiseaseList extends VerticalLayout {
     private void updateList(Integer patientId) {
         grid.setItems(diseaseService.findAll(patientId));
     }
+
     private void updateList() {
         grid.setItems(diseaseService.findAll());
     }

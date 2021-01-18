@@ -35,12 +35,16 @@ public class AuthService {
     @Autowired
     private final ManagerRepository managerRepository;
 
-    public AuthService(@Autowired UserRepository userRepository, @Autowired EmployeeRepository employeeRepository, DoctorRepository doctorRepository, AdmEmployeeRepository admEmployeeRepository, ManagerRepository managerRepository) {
+    @Autowired
+    private final PatientRepository patientRepository;
+
+    public AuthService(@Autowired UserRepository userRepository, @Autowired EmployeeRepository employeeRepository, DoctorRepository doctorRepository, AdmEmployeeRepository admEmployeeRepository, ManagerRepository managerRepository, PatientRepository patientRepository) {
         this.userRepository = userRepository;
         this.employeeRepository = employeeRepository;
         this.doctorRepository = doctorRepository;
         this.admEmployeeRepository = admEmployeeRepository;
         this.managerRepository = managerRepository;
+        this.patientRepository = patientRepository;
     }
 
     public void authenticate(String username, String password) throws AuthException {
@@ -100,20 +104,13 @@ public class AuthService {
             managerRepository.insertManager(user.getId());
 
 
-//
-//        user.setAccount(account);
-//        account.setUser(user);
-        //accountRepository.save(account);
     }
-    public void register(String firstName, String lastName, Long pesel, Integer age, String password) {
+    public void register(String firstName, String lastName, Long pesel, Integer age, String password, String sex) {
         //Account account = new Account(BankUtils.generateRandomAccountNumber());
         User user = new User(firstName, lastName, pesel, age, password, Role.PATIENT);
-
-        //user.setAccount(account);
-        //account.setUser(user);
-
         userRepository.save(user);
-        //accountRepository.save(account);
+
+        patientRepository.insertPatient(sex, user.getId());
     }
 
 
