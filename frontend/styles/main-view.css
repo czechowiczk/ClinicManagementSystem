@@ -33,7 +33,7 @@ vaadin-tab {
 }
 
 vaadin-tab:hover {
-  background-color: #1111dd;
+  background-color: #666;
 }
 
 vaadin-tab[selected] {
