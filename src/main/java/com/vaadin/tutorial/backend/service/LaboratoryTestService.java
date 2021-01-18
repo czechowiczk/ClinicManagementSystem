@@ -1,52 +1,55 @@
 package com.vaadin.tutorial.backend.service;
 
 import com.vaadin.tutorial.backend.entity.LaboratoryTest;
+import com.vaadin.tutorial.backend.entity.Visit;
 import com.vaadin.tutorial.backend.repository.LaboratoryTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-public class LaboratoryTestService {
+public class LaboratoryTestService implements Dao<LaboratoryTest>{
 
     private final LaboratoryTestRepository laboratoryTestRepository;
+
+    public LaboratoryTestService(LaboratoryTestRepository laboratoryTestRepository) {
+        this.laboratoryTestRepository = laboratoryTestRepository;
+    }
 
     public List<LaboratoryTest> getTests() {
         return laboratoryTestRepository.findAll();
     }
 
-    @Autowired
-    public LaboratoryTestService(LaboratoryTestRepository laboratoryTestRepository) {
-        this.laboratoryTestRepository = laboratoryTestRepository;
+    @Override
+    public LaboratoryTest save(LaboratoryTest laboratoryTest) {
+        return laboratoryTestRepository.save(laboratoryTest);
     }
 
-    private static final Logger LOGGER = Logger.getLogger(LaboratoryTestService.class.getName());
-
-    public List<LaboratoryTest> findAll(Integer patientId) {
-        return laboratoryTestRepository.search(patientId);
+    @Override
+    public LaboratoryTest update(LaboratoryTest laboratoryTest) {
+        return laboratoryTestRepository.save(laboratoryTest);
     }
 
-    public List<LaboratoryTest> findAll() {
-        return laboratoryTestRepository.findAll();
-    }
-
-    public long count() {
-        return laboratoryTestRepository.count();
-    }
-
+    @Override
     public void delete(LaboratoryTest laboratoryTest) {
         laboratoryTestRepository.delete(laboratoryTest);
     }
 
-    public void save(LaboratoryTest laboratoryTest) {
-        if (laboratoryTest == null) {
-            LOGGER.log(Level.SEVERE,
-                    "Laboratory test is null. Are you sure you have connected your form to the application?");
-            return;
-        }
-        laboratoryTestRepository.save(laboratoryTest);
+    @Override
+    public Optional<LaboratoryTest> get(Integer id) {
+        return laboratoryTestRepository.findById(id);
+    }
+
+    @Override
+    public List<LaboratoryTest> findAll() {
+        return laboratoryTestRepository.findAll();
+    }
+
+    public List<LaboratoryTest> findAll(Integer id) {
+        return laboratoryTestRepository.search(id);
     }
 }

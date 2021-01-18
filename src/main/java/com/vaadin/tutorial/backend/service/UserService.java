@@ -3,6 +3,7 @@ package com.vaadin.tutorial.backend.service;
 import com.vaadin.tutorial.backend.entity.User;
 import com.vaadin.tutorial.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +56,9 @@ public class UserService implements Dao<User>{
     @Override
     public List<User> findAll(Integer id) {
         return userRepository.findAll();
+    }
+
+    public void modifyUser(String name, String surname, Integer age, Long pesel) {
+        userRepository.modifyUser(name, surname, age, pesel);
     }
 }
