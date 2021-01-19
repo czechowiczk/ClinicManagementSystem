@@ -22,6 +22,6 @@ public interface TimetableRepository extends JpaRepository<Timetable, Integer> {
     @Query(value = "select * from timetable where id_employee = :idDoctor and date = :date and :hour between start_hour and end_hour", nativeQuery = true)
     Timetable getDoctorsWorkingHour(@Param("idDoctor") Integer id, @Param("date") LocalDate date, @Param("hour") LocalTime time);
 
-    @Query(value = "SELECT sum(end_hour - start_hour)/10000 FROM timetable where id_employee = :id", nativeQuery = true)
-    Integer getWorkHours(@Param("id") Integer id);
+    @Query(value = "SELECT sum(end_hour - start_hour)/10000 FROM timetable where id_employee = :id and month(date) = :month", nativeQuery = true)
+    Integer getWorkHours(@Param("id") Integer id, @Param("month") Integer month);
 }

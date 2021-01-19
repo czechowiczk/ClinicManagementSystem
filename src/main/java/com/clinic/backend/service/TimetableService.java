@@ -61,8 +61,8 @@ public class TimetableService implements Dao<Timetable>{
 
     public Timetable getDoctorsWorkingHours(Integer doctorId, LocalDate date, LocalTime time) { return timetableRepository.getDoctorsWorkingHour(doctorId, date, time); }
 
-    public Integer getWorkHours(Integer id){
-        Integer s = timetableRepository.getWorkHours(id);
+    public Integer getWorkHours(Integer id, Integer month){
+        Integer s = timetableRepository.getWorkHours(id, month);
         if(s == null) {
             return 0;
         } else {

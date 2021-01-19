@@ -16,6 +16,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
+import java.time.LocalDate;
+
 @Route(value="salaries_management", layout = MainView.class)
 @PageTitle("Salaries | Clinic")
 public class PaySalaries extends VerticalLayout {
@@ -27,6 +29,7 @@ public class PaySalaries extends VerticalLayout {
 
     public PaySalaries(SalaryService salaryService, EmployeeService employeeService, TimetableService timetableService) {
         this.timetableService = timetableService;
+        //Notification.show(String.valueOf(LocalDate.now().getMonthValue()));
         user = VaadinSession.getCurrent().getAttribute(User.class);
         this.salaryService = salaryService;
         this.employeeService = employeeService;
@@ -54,18 +57,19 @@ public class PaySalaries extends VerticalLayout {
             Label alreadyPayed = new Label("Already payed");
             Button pay = new Button(new Icon(VaadinIcon.CHECK));
             Salary s = new Salary();
-            Integer workHours = timetableService.getWorkHours(employee.getId());
+            Integer workHours = timetableService.getWorkHours(employee.getId(), LocalDate.now().getMonthValue());
             s.setCashAmount(employee.getRate() * workHours);
             s.setHoursAmount(workHours);
             s.setEmployeeId(employee.getId());
             s.setManagerId(user.getId());
+            s.setDate(LocalDate.now());
             pay.addClickListener(evt -> {
                 salaryService.save(s);
                 updateList();
                 Notification.show("Payed " + (employee.getRate() * workHours) + "$");
             });
 
-            if(salaryService.checkIfPayed(employee.getId()) == null) {
+            if(salaryService.checkIfPayed(employee.getId(), LocalDate.now().getMonthValue()) == null) {
                 return pay;
             } else if(employee.getId() == user.getId()) {
                 return new Label("This is you");

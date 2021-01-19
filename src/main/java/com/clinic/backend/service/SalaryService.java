@@ -7,6 +7,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +53,8 @@ public class SalaryService implements Dao<Salary>{
         return null;
     }
 
-    public Salary checkIfPayed(Integer id) {
-        return salaryRepository.checkIfPayed(id);
+    public Salary checkIfPayed(Integer id, Integer month) {
+        return salaryRepository.checkIfPayed(id, month);
     }
 
     //public void insertEntry(Integer id) {

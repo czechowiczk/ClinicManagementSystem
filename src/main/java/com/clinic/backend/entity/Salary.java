@@ -1,6 +1,7 @@
 package com.clinic.backend.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -18,6 +19,8 @@ public class Salary {
     private Integer hoursAmount;
     @Column(name="cash_amount")
     private Integer cashAmount;
+    @Column(name="date")
+    private LocalDate date;
 
 
     //@Id
@@ -33,13 +36,14 @@ public class Salary {
     public Salary() {
     }
 
-    public Salary(Integer managerId, Integer employeeId, Integer hoursAmount, Integer cashAmount, Employee employee, Manager manager) {
+    public Salary(Integer managerId, Integer employeeId, Integer hoursAmount, Integer cashAmount, Employee employee, Manager manager, LocalDate date) {
         this.managerId = managerId;
         this.employeeId = employeeId;
         this.hoursAmount = hoursAmount;
         this.cashAmount = cashAmount;
         this.employee = employee;
         this.manager = manager;
+        this.date = date;
     }
 
     public Integer getEntryId() {
@@ -96,5 +100,13 @@ public class Salary {
 
     public void setManager(Manager manager) {
         this.manager = manager;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }
