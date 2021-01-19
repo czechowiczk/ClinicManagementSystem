@@ -41,7 +41,6 @@ public class LaboratoryTestList extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("laboratorytest-grid");
         grid.setSizeFull();
-        //grid.removeColumnByKey("company");
         grid.setColumns("type", "date", "description");
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));

@@ -140,8 +140,6 @@ public class HomeView extends Div {
                 description
         );
 
-
-
         Button confirmButton = new Button("Confirm", event -> {
             if (!(name.getValue().isEmpty() || datePicker.getValue().isAfter(LocalDate.now()))) {
                 Disease disease = new Disease(datePicker.getValue(), description.getValue(), name.getValue(), VaadinSession.getCurrent().getAttribute(User.class).getId());

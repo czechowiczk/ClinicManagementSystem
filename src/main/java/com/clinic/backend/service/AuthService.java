@@ -3,6 +3,7 @@ package com.clinic.backend.service;
 import com.clinic.backend.entity.Role;
 import com.clinic.backend.entity.User;
 import com.clinic.backend.repository.*;
+import com.clinic.gui.view.doctor.timetable.DoctorTimetable;
 import com.clinic.gui.view.doctor.visits.BookedVisits;
 import com.clinic.gui.view.home.HomeView;
 import com.clinic.gui.view.main.MainView;
@@ -80,6 +81,7 @@ public class AuthService {
         else if(role.equals(Role.DOCTOR)){
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
             routes.add(new AuthorizedRoute("doctorVisits", "Visits", BookedVisits.class));
+            routes.add(new AuthorizedRoute("doctor-timetable", "DoctorTimetable", DoctorTimetable.class));
         }
         else if(role.equals(Role.MANAGER)){
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
@@ -109,7 +111,6 @@ public class AuthService {
 
     }
     public void register(String firstName, String lastName, Long pesel, Integer age, String password, String sex) {
-        //Account account = new Account(BankUtils.generateRandomAccountNumber());
         User user = new User(firstName, lastName, pesel, age, password, Role.PATIENT);
         userRepository.save(user);
 

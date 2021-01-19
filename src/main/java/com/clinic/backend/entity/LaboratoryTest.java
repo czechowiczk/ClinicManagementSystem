@@ -22,7 +22,6 @@ public class LaboratoryTest {
     @Column(name = "description")
     private String description;
 
-    //@Id
     @ManyToOne
     @JoinColumn(name = "id_patient", insertable=false, updatable=false)
     private Patient patient;
