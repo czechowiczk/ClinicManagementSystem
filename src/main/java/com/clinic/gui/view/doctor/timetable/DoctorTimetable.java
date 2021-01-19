@@ -35,5 +35,4 @@ public class DoctorTimetable extends VerticalLayout {
         grid.setColumns("date", "startHour", "endHour");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
-
 }

@@ -199,6 +199,7 @@ public class HomeView extends Div {
 
         label.addValueChangeListener(e ->
         {
+//             tutaj dodać sprawdzanie daty
             docId = e.getValue().getId();
         });
 
@@ -212,11 +213,16 @@ public class HomeView extends Div {
         );
 
         Button confirmButton = new Button("Add", event -> {
+
             if (!(purpose.getValue().isEmpty() || datePicker.getValue().isBefore(LocalDate.now()) || timePicker.isEmpty() || label.isEmpty())) {
-                Visit visit = new Visit(docId, user.getId(), datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
-                visitService.save(visit);
-                Notification.show("Visit booked");
-                dialog.close();
+                if(timetableService.getDoctorsWorkingHours(docId, datePicker.getValue(), timePicker.getValue())!=null) {
+                    Visit visit = new Visit(docId, user.getId(), datePicker.getValue(), purpose.getValue(), description.getValue(), timePicker.getValue());
+                    visitService.save(visit);
+                    Notification.show("Visit booked");
+                    dialog.close();
+                }
+                Notification.show("Doctor is not available then");
+
             } else {
                 Notification.show("Wrong data");
             }

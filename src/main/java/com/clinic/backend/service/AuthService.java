@@ -87,10 +87,10 @@ public class AuthService {
         else if(role.equals(Role.MANAGER)){
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
             routes.add(new AuthorizedRoute("add_employee", "AddEmployee", AddEmployee.class));
-            routes.add(new AuthorizedRoute("timetables_management", "Show timetables", ManageTimetable.class));
+            routes.add(new AuthorizedRoute("timetables-management", "Show timetables", ManageTimetable.class));
         }
         else {
-            routes.add(new AuthorizedRoute("list", "List", VisitList.class));
+            routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
         }
 
         return routes;

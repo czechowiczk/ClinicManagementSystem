@@ -11,7 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@Route(value="timetables_management", layout = MainView.class)
+@Route(value="timetables-management", layout = MainView.class)
 @PageTitle("Timetables | Clinic")
 public class ManageTimetable extends VerticalLayout {
     Grid<Timetable> grid = new Grid<>(Timetable.class);

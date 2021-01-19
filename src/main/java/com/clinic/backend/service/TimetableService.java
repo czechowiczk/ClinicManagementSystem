@@ -6,6 +6,8 @@ import com.clinic.backend.repository.TimetableRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,4 +58,6 @@ public class TimetableService implements Dao<Timetable>{
    }
 
     public List<Timetable> getDoctorsTimetables(Integer userId) { return timetableRepository.findAllDoctorsTimetables(userId); }
+
+    public Timetable getDoctorsWorkingHours(Integer doctorId, LocalDate date, LocalTime time) { return timetableRepository.getDoctorsWorkingHour(doctorId, date, time); }
 }
