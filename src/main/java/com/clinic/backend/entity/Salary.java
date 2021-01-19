@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Salary {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_entry")
     private Integer entryId;
     @Column(name="id_manager")

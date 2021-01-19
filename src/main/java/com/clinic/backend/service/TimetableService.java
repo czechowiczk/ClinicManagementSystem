@@ -60,4 +60,13 @@ public class TimetableService implements Dao<Timetable>{
     public List<Timetable> getDoctorsTimetables(Integer userId) { return timetableRepository.findAllDoctorsTimetables(userId); }
 
     public Timetable getDoctorsWorkingHours(Integer doctorId, LocalDate date, LocalTime time) { return timetableRepository.getDoctorsWorkingHour(doctorId, date, time); }
+
+    public Integer getWorkHours(Integer id){
+        Integer s = timetableRepository.getWorkHours(id);
+        if(s == null) {
+            return 0;
+        } else {
+            return s;
+        }
+    }
 }

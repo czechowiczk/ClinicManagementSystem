@@ -25,7 +25,7 @@ public class Manager extends Employee {
     public Manager() {
     }
 
-    public Manager(String name, String surname, Long PESEL, int age, String password, Role role, Set<Timetable> timetables) {
-        super(name, surname, PESEL, age, password, role, timetables);
+    public Manager(String name, String surname, Long PESEL, int age, String password, Role role, Set<Timetable> timetables, Integer rate) {
+        super(name, surname, PESEL, age, password, role, timetables, rate);
     }
 }

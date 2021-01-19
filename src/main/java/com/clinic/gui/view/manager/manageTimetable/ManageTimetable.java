@@ -1,4 +1,4 @@
-package com.clinic.gui.view.manager.addEmployee;
+package com.clinic.gui.view.manager.manageTimetable;
 
 import com.clinic.backend.entity.Employee;
 import com.clinic.backend.entity.Timetable;

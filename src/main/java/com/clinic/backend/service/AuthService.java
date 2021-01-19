@@ -8,7 +8,8 @@ import com.clinic.gui.view.doctor.visits.BookedVisits;
 import com.clinic.gui.view.home.HomeView;
 import com.clinic.gui.view.main.MainView;
 import com.clinic.gui.view.manager.addEmployee.AddEmployee;
-import com.clinic.gui.view.manager.addEmployee.ManageTimetable;
+import com.clinic.gui.view.manager.manageTimetable.ManageTimetable;
+import com.clinic.gui.view.manager.paySalaries.PaySalaries;
 import com.clinic.gui.view.patient.diseases.DiseaseList;
 import com.clinic.gui.view.patient.tests.LaboratoryTestList;
 import com.clinic.gui.view.patient.visits.VisitList;
@@ -87,6 +88,8 @@ public class AuthService {
         else if(role.equals(Role.MANAGER)){
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
             routes.add(new AuthorizedRoute("add_employee", "AddEmployee", AddEmployee.class));
+            //routes.add(new AuthorizedRoute("timetables_management", "Show timetables", ManageTimetable.class));
+            routes.add(new AuthorizedRoute("salaries_management", "Manage salaries", PaySalaries.class));
             routes.add(new AuthorizedRoute("timetables-management", "Show timetables", ManageTimetable.class));
         }
         else {
@@ -97,11 +100,11 @@ public class AuthService {
     }
 
 
-    public void hire(String firstName, String lastName, Long pesel, Integer age, String password, Role userRole, Integer managerId, String specialization, String type) {
+    public void hire(String firstName, String lastName, Long pesel, Integer age, String password, Role userRole, Integer managerId, String specialization, String type, Integer rate) {
         User user = new User(firstName, lastName, pesel, age, password, userRole);
         userRepository.save(user);
 
-        employeeRepository.insertUser(user.getId());
+        employeeRepository.insertUser(user.getId(), rate);
 
         if(userRole == Role.DOCTOR)
             doctorRepository.insertDoctor(managerId, specialization, user.getId());

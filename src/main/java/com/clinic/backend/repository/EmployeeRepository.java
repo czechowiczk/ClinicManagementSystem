@@ -14,6 +14,8 @@ public interface EmployeeRepository
 
     @Transactional
     @Modifying
-    @Query(value = "insert into employees (id_employee) values (:id_user)", nativeQuery = true)
-    void insertUser(@Param("id_user") Integer id_user);
+    @Query(value = "insert into employees (id_employee, rate) values (:id_user, :rate)", nativeQuery = true)
+    void insertUser(@Param("id_user") Integer id_user, @Param("rate") Integer rate);
+
+
 }

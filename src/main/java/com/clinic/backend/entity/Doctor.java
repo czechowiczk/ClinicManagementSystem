@@ -26,8 +26,8 @@ public class Doctor extends Employee {
     public Doctor() {
     }
 
-    public Doctor(String name, String surname, Long PESEL, int age, String password, Role role, Set<Timetable> timetables, String specialization, Integer managerId, Set<Visit> visits) {
-        super(name, surname, PESEL, age, password, role, timetables);
+    public Doctor(String name, String surname, Long PESEL, int age, String password, Role role, Set<Timetable> timetables, String specialization, Integer managerId, Set<Visit> visits, Integer rate) {
+        super(name, surname, PESEL, age, password, role, timetables, rate);
         this.specialization = specialization;
         this.managerId = managerId;
         this.visits = visits;

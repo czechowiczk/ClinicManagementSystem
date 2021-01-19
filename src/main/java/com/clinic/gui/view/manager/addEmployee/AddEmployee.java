@@ -11,6 +11,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -47,6 +48,7 @@ public class AddEmployee extends Composite {
         TextField pesel = createPesel();
         TextField age = new TextField("Age");
         TextField type = new TextField("Type");
+        TextField rate = new TextField("Rate");
         PasswordField password = new PasswordField("Password");
         PasswordField confirmPassword = new PasswordField("Confirm password");
         Select<Role> roleSelect = new Select<>();
@@ -67,7 +69,8 @@ public class AddEmployee extends Composite {
                 age,
                 roleSelect,
                 specialization,
-                type
+                type,
+                rate
         );
 
         formLayout.setResponsiveSteps(
@@ -91,7 +94,8 @@ public class AddEmployee extends Composite {
                             Integer.parseInt(age.getValue()),
                             role,
                             specialization.getValue(),
-                            type.getValue()
+                            type.getValue(),
+                            Integer.parseInt(rate.getValue())
                     );
 
             } else if (role == Role.ADM_EMPLOYEE) {
@@ -106,7 +110,8 @@ public class AddEmployee extends Composite {
                             Integer.parseInt(age.getValue()),
                             role,
                             specialization.getValue(),
-                            type.getValue()
+                            type.getValue(),
+                            Integer.parseInt(rate.getValue())
                     );
             } else if(role == Role.MANAGER) {
                 if(type.isEmpty() && specialization.isEmpty())
@@ -118,7 +123,8 @@ public class AddEmployee extends Composite {
                             Integer.parseInt(age.getValue()),
                             role,
                             specialization.getValue(),
-                            type.getValue()
+                            type.getValue(),
+                            Integer.parseInt(rate.getValue())
                     );
                 else Notification.show("Manager does not have specialization or type");
             }
@@ -133,7 +139,8 @@ public class AddEmployee extends Composite {
                         Integer.parseInt(age.getValue()),
                         role,
                         specialization.getValue(),
-                        type.getValue()
+                        type.getValue(),
+                        Integer.parseInt(rate.getValue())
                     );
                 }
                 ));
@@ -145,7 +152,7 @@ public class AddEmployee extends Composite {
     }
 
     private void register(String firstName, String lastName, String password, String confirmPassword,
-                          String pesel, Integer age, Role role, String specialization, String type) {
+                          String pesel, Integer age, Role role, String specialization, String type, Integer rate) {
 
         if (password.isEmpty()) {
             Notification.show("Enter a password");
@@ -162,7 +169,7 @@ public class AddEmployee extends Composite {
         } else if(role == null)
             Notification.show("Enter role");
         else {
-            authService.hire(firstName, lastName, Long.parseLong(pesel), age, password, role, VaadinSession.getCurrent().getAttribute(User.class).getId(), specialization, type);
+            authService.hire(firstName, lastName, Long.parseLong(pesel), age, password, role, VaadinSession.getCurrent().getAttribute(User.class).getId(), specialization, type, rate);
             Notification.show("Employee hired.");
             try {
                 Thread.sleep(500);
