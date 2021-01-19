@@ -40,7 +40,6 @@ public class VisitList extends VerticalLayout {
         grid.setItems(visitService.findAll());
     }
 
-
     private void configureGrid() {
         grid.addClassName("visit-grid");
         grid.setSizeFull();

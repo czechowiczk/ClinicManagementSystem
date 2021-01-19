@@ -18,4 +18,6 @@ public class TimetableService {
     public List<Timetable> getTimetables() {
         return timetableRepository.findAll();
     }
+
+    public List<Timetable> getDoctorsTimetables(Integer userId) { return timetableRepository.findAllDoctorsTimetables(userId); }
 }

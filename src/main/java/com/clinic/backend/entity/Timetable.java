@@ -1,6 +1,7 @@
 package com.clinic.backend.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
@@ -13,7 +14,7 @@ public class Timetable {
     @Column(name="id_employee", nullable = false)
     private Integer employeeId;
     @Column(name="date")
-    private String date;
+    private LocalDate date;
     @Column(name="start_hour")
     private LocalTime startHour;
     @Column(name="end_hour")
@@ -27,7 +28,7 @@ public class Timetable {
     public Timetable() {
     }
 
-    public Timetable(Integer employeeId, String date, LocalTime startHour, LocalTime endHour, Employee employee) {
+    public Timetable(Integer employeeId, LocalDate date, LocalTime startHour, LocalTime endHour, Employee employee) {
         this.employeeId = employeeId;
         this.date = date;
         this.startHour = startHour;
@@ -51,11 +52,11 @@ public class Timetable {
         this.employeeId = employeeId;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
