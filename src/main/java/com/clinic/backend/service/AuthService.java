@@ -8,6 +8,7 @@ import com.clinic.gui.view.doctor.visits.BookedVisits;
 import com.clinic.gui.view.home.HomeView;
 import com.clinic.gui.view.main.MainView;
 import com.clinic.gui.view.manager.addEmployee.AddEmployee;
+import com.clinic.gui.view.manager.addEmployee.ManageTimetable;
 import com.clinic.gui.view.patient.diseases.DiseaseList;
 import com.clinic.gui.view.patient.tests.LaboratoryTestList;
 import com.clinic.gui.view.patient.visits.VisitList;
@@ -86,6 +87,7 @@ public class AuthService {
         else if(role.equals(Role.MANAGER)){
             routes.add(new AuthorizedRoute("home", "Home", HomeView.class));
             routes.add(new AuthorizedRoute("add_employee", "AddEmployee", AddEmployee.class));
+            routes.add(new AuthorizedRoute("timetables_management", "Show timetables", ManageTimetable.class));
         }
         else {
             routes.add(new AuthorizedRoute("list", "List", VisitList.class));

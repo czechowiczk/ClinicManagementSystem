@@ -1,10 +1,6 @@
 package com.clinic.gui.view.patient.credentials;
 
 
-import com.clinic.backend.entity.User;
-import com.clinic.backend.service.UserService;
-import com.clinic.gui.view.home.HomeView;
-import com.clinic.gui.view.main.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -18,6 +14,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
+import com.clinic.backend.entity.Role;
+import com.clinic.backend.entity.User;
+import com.clinic.backend.service.UserService;
+import com.clinic.gui.view.home.HomeView;
+import com.clinic.gui.view.main.MainView;
 
 import java.util.Optional;
 
@@ -75,6 +76,8 @@ public class CredentialsView extends VerticalLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
 
         verticalLayout.add(header, credentialsLayout, patientLayout);
+
+
         verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 

@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Timetable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_timetable")
     private Integer timetableId;
     @Column(name="id_employee", nullable = false)
@@ -34,6 +35,13 @@ public class Timetable {
         this.startHour = startHour;
         this.endHour = endHour;
         this.employee = employee;
+    }
+
+    public Timetable(Integer employeeId, LocalDate date, LocalTime startHour, LocalTime endHour) {
+        this.employeeId = employeeId;
+        this.date = date;
+        this.startHour = startHour;
+        this.endHour = endHour;
     }
 
     public Integer getTimetableId() {

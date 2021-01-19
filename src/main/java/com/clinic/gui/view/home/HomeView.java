@@ -36,13 +36,18 @@ public class HomeView extends Div {
     private final DoctorService doctorService;
     private final DiseaseService diseaseService;
     private final PatientService patientService;
+    private final EmployeeService employeeService;
+    private final TimetableService timetableService;
     private final LaboratoryTestService laboratoryTestService;
     private User user;
     Integer docId = 0;
     Integer patientID;
+    Integer employeeID;
 
 
-    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService, PatientService patientService, LaboratoryTestService laboratoryTestService) {
+    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService, PatientService patientService, EmployeeService employeeService, TimetableService timetableService, LaboratoryTestService laboratoryTestService) {
+        this.employeeService = employeeService;
+        this.timetableService = timetableService;
         addClassName("home-view");
         this.userService = userService;
         this.visitService = visitService;
@@ -97,11 +102,20 @@ public class HomeView extends Div {
         buttonFillLaboratoryTest.setAutofocus(true);
         buttonFillLaboratoryTest.addClickListener(event -> showAddTest());
 
+        Button buttonFillTimetable = new Button("Add timetable", new Icon(VaadinIcon.TABLE));
+        buttonFillTimetable.setIconAfterText(true);
+        buttonFillTimetable.setAutofocus(true);
+        buttonFillTimetable.addClickListener(event -> showAddTimetable());
+
         HorizontalLayout patientLayout = new HorizontalLayout(buttonFillDiseaseHistory, buttonBookVisit);
         patientLayout.setAlignItems(FlexComponent.Alignment.START);
         patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
         HorizontalLayout doctorLayout = new HorizontalLayout(buttonFillLaboratoryTest);
+        patientLayout.setAlignItems(FlexComponent.Alignment.START);
+        patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
+
+        HorizontalLayout managerLayout = new HorizontalLayout(buttonFillTimetable);
         patientLayout.setAlignItems(FlexComponent.Alignment.START);
         patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
@@ -112,6 +126,9 @@ public class HomeView extends Div {
         }
         else if(user.getRole() == Role.DOCTOR) {
             verticalLayout.add(doctorLayout);
+        }
+        else if(user.getRole() == Role.MANAGER) {
+            verticalLayout.add(managerLayout);
         }
 
         verticalLayout.add(
@@ -263,6 +280,52 @@ public class HomeView extends Div {
         dialog.open();
     }
 
+    private void showAddTimetable() {
+        Dialog dialog = new Dialog();
+        dialog.setCloseOnOutsideClick(false);
+
+        VerticalLayout verticalLayout = new VerticalLayout();
+        Select<Employee> employee = new Select<>();
+        employee.setLabel("Select employee");
+        employee.setItems(employeeService.getEmployees());
+        employee.addValueChangeListener(event -> {
+            employeeID = event.getValue().getId();
+        });
+        DatePicker datePicker = new DatePicker("Date");
+        TimePicker start_hour = new TimePicker("Start hour");
+        TimePicker end_hour = new TimePicker("End hour");
+
+
+        verticalLayout.add(
+                new Text("Add timetable"),
+                employee,
+                datePicker,
+                start_hour,
+                end_hour
+        );
+
+        Button confirmButton = new Button("Add", event -> {
+            if (!(datePicker.getValue().isBefore(LocalDate.now()) || start_hour.isEmpty() || end_hour.isEmpty())) {
+                Timetable timetable = new Timetable(employeeID, datePicker.getValue(), start_hour.getValue(), end_hour.getValue());
+                timetableService.save(timetable);
+                Notification.show("Timetable added");
+                dialog.close();
+            } else {
+                Notification.show("Wrong data");
+            }
+        });
+
+        Button cancelButton = new Button("Cancel", event -> {
+            dialog.close();
+        });
+
+        verticalLayout.add(new HorizontalLayout(confirmButton, cancelButton));
+        verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        dialog.add(verticalLayout);
+        dialog.open();
+    }
 
     private void fetchFreshUser() {
         try {
