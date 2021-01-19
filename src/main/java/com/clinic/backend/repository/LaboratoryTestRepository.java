@@ -13,4 +13,9 @@ public interface LaboratoryTestRepository extends JpaRepository<LaboratoryTest, 
     @Query(value = "select * from laboratory_tests l " +
             "where l.id_patient=:patient_id ", nativeQuery = true)
     List<LaboratoryTest> search(@Param("patient_id") Integer patient_id);
+
+
+//    @Transactional
+//    @Modifying
+//    @Query(value = "insert into laboratory_tests (")
 }

@@ -35,16 +35,20 @@ public class HomeView extends Div {
     private final VisitService visitService;
     private final DoctorService doctorService;
     private final DiseaseService diseaseService;
+    private final PatientService patientService;
     private final LaboratoryTestService laboratoryTestService;
     private User user;
     Integer docId = 0;
+    Integer patientID;
 
-    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService, LaboratoryTestService laboratoryTestService) {
+
+    public HomeView(UserService userService, VisitService visitService, DoctorService doctorService, DiseaseService diseaseService, PatientService patientService, LaboratoryTestService laboratoryTestService) {
         addClassName("home-view");
         this.userService = userService;
         this.visitService = visitService;
         this.doctorService = doctorService;
         this.diseaseService = diseaseService;
+        this.patientService = patientService;
         this.laboratoryTestService = laboratoryTestService;
         fetchFreshUser();
 
@@ -93,8 +97,11 @@ public class HomeView extends Div {
         buttonFillLaboratoryTest.setAutofocus(true);
         buttonFillLaboratoryTest.addClickListener(event -> showAddTest());
 
-        HorizontalLayout patientLayout = new HorizontalLayout(buttonFillDiseaseHistory, buttonBookVisit, buttonFillLaboratoryTest);
-        patientLayout.addClassName("patient-layout");
+        HorizontalLayout patientLayout = new HorizontalLayout(buttonFillDiseaseHistory, buttonBookVisit);
+        patientLayout.setAlignItems(FlexComponent.Alignment.START);
+        patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
+
+        HorizontalLayout doctorLayout = new HorizontalLayout(buttonFillLaboratoryTest);
         patientLayout.setAlignItems(FlexComponent.Alignment.START);
         patientLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
@@ -102,6 +109,9 @@ public class HomeView extends Div {
 
         if (user.getRole() == Role.PATIENT) {
             verticalLayout.add(patientLayout);
+        }
+        else if(user.getRole() == Role.DOCTOR) {
+            verticalLayout.add(doctorLayout);
         }
 
         verticalLayout.add(
@@ -217,17 +227,24 @@ public class HomeView extends Div {
         TextField type = new TextField("Type");
         DatePicker datePicker = new DatePicker("Date");
         TextField description = new TextField("Description (optional)");
+        Select<Patient> patient = new Select<>();
+        patient.setLabel("Select patient");
+        patient.setItems(patientService.getPatients());
+        patient.addValueChangeListener(event -> {
+            patientID = event.getValue().getId();
+        });
 
         verticalLayout.add(
                 new Text("Add tests"),
                 type,
                 datePicker,
-                description
+                description,
+                patient
         );
 
         Button confirmButton = new Button("Add", event -> {
-            if (!(type.getValue().isEmpty()|| datePicker.getValue().isAfter(LocalDate.now()))) {
-                LaboratoryTest laboratoryTest = new LaboratoryTest(type.getValue(), datePicker.getValue(), description.getValue());
+            if (!(type.getValue().isEmpty() || datePicker.getValue().isAfter(LocalDate.now()) || patient.isEmpty())) {
+                LaboratoryTest laboratoryTest = new LaboratoryTest(type.getValue(), datePicker.getValue(), description.getValue(), patientID);
                 laboratoryTestService.save(laboratoryTest);
                 Notification.show("Test added");
                 dialog.close();

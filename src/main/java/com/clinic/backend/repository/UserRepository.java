@@ -14,8 +14,8 @@ public interface UserRepository
         extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "update user set name = :name, surname = :surname, age = :age", nativeQuery = true)
-    void modifyUser(@Param("name") String name, @Param("surname") String surname, @Param("age") Integer age);
+    @Query(value = "update user set name = :name, surname = :surname, age = :age where id_user = :id_user", nativeQuery = true)
+    void modifyUser(@Param("name") String name, @Param("surname") String surname, @Param("age") Integer age, @Param("id_user") Integer id_user);
 
     public User getByPESEL(Long PESEL);
 

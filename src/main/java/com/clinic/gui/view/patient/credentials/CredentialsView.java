@@ -1,38 +1,26 @@
-package com.vaadin.tutorial.gui.view.user.credentials;
+package com.clinic.gui.view.patient.credentials;
 
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.tutorial.backend.entity.Doctor;
-import com.vaadin.tutorial.backend.entity.Role;
-import com.vaadin.tutorial.backend.entity.User;
-import com.vaadin.tutorial.backend.entity.Visit;
-import com.vaadin.tutorial.backend.service.DoctorService;
-import com.vaadin.tutorial.backend.service.UserService;
-import com.vaadin.tutorial.backend.service.VisitService;
-import com.vaadin.tutorial.gui.view.home.HomeView;
-import com.vaadin.tutorial.gui.view.main.MainView;
+import com.clinic.backend.entity.Role;
+import com.clinic.backend.entity.User;
+import com.clinic.backend.service.UserService;
+import com.clinic.gui.view.home.HomeView;
+import com.clinic.gui.view.main.MainView;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
 
 @Route(value = "credentials", layout = MainView.class)
 @CssImport("./styles/credentials-view.css")
@@ -56,16 +44,12 @@ public class CredentialsView extends VerticalLayout {
         TextField labelLastName = new TextField("Last name:");
         labelLastName.setValue(user.getSurname());
 
-        TextField labelPesel = new TextField("Pesel:");
-        labelPesel.setValue(user.getPESEL() + "");
-
         TextField labelAge = new TextField("Age:");
         labelAge.setValue(user.getAge() + "");
 
         VerticalLayout credentialsLayout = new VerticalLayout(
                 labelFirstName,
                 labelLastName,
-                labelPesel,
                 labelAge
         );
         credentialsLayout.getThemeList().set("dark", true);
@@ -78,7 +62,7 @@ public class CredentialsView extends VerticalLayout {
         confirmButton.setIconAfterText(true);
         confirmButton.setAutofocus(true);
         confirmButton.addClickListener(event -> {
-            userService.modifyUser(labelFirstName.getValue(), labelLastName.getValue(), Integer.parseInt(labelAge.getValue()), Long.parseLong(labelPesel.getValue()));
+            userService.modifyUser(labelFirstName.getValue(), labelLastName.getValue(), Integer.parseInt(labelAge.getValue()), user.getId());
             UI.getCurrent().navigate("home");
         });
 
@@ -91,7 +75,9 @@ public class CredentialsView extends VerticalLayout {
 
         VerticalLayout verticalLayout = new VerticalLayout();
 
-        verticalLayout.add(header, credentialsLayout, patientLayout);
+        if (user.getRole() == Role.PATIENT) {
+            verticalLayout.add(header, credentialsLayout, patientLayout);
+        }
 
         verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
